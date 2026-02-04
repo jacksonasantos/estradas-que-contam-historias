@@ -1,11 +1,12 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
+import Manifesto from "../components/Manifesto.astro";
 ---
 
 <BaseLayout title="Sobre | Estradas que Contam Histórias">
 
   <!-- TÍTULO -->
-  <section class="px-6 md:px-20 pt-32 pb-16 max-w-3xl">
+  <section class="px-6 md:px-20 pt-32 pb-1 max-w-9xl text-center">
     <h1 class="text-4xl font-serif mb-8">
       Sobre o projeto
     </h1>
@@ -17,7 +18,7 @@ import BaseLayout from "../layouts/BaseLayout.astro";
   </section>
 
   <!-- O QUE É -->
-  <section class="px-6 md:px-20 py-16 max-w-3xl space-y-6 text-neutral-300 leading-relaxed">
+  <section class="px-6 md:px-20 py-16 max-w-9xl space-y-6 text-neutral-300 leading-relaxed text-center">
     <p>
       Mais do que roteiros turísticos, o projeto propõe experiências
       que conectam estrada, memória, cultura e território.
@@ -34,7 +35,7 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 
   <!-- COMO FUNCIONA -->
   <section class="px-6 md:px-20 py-16 bg-neutral-900">
-    <div class="max-w-3xl space-y-6 text-neutral-300 leading-relaxed">
+    <div class="max-w-9xl space-y-6 text-neutral-300 leading-relaxed text-center">
       <h2 class="text-2xl font-serif mb-4">
         Como as viagens acontecem
       </h2>
@@ -54,7 +55,7 @@ import BaseLayout from "../layouts/BaseLayout.astro";
   </section>
 
   <!-- QUEM ESTÁ POR TRÁS -->
-  <section class="px-6 md:px-20 py-24 max-w-3xl space-y-6 text-neutral-300 leading-relaxed">
+  <section class="px-6 md:px-20 py-24 max-w-9xl space-y-6 text-neutral-300 leading-relaxed text-center">
     <h2 class="text-2xl font-serif mb-4">
       Quem está por trás
     </h2>
@@ -73,11 +74,13 @@ import BaseLayout from "../layouts/BaseLayout.astro";
   </section>
 
   <!-- FECHAMENTO -->
-  <section class="px-6 md:px-20 pb-32 max-w-3xl text-neutral-300 leading-relaxed">
+  <section class="px-6 md:px-20 pb-16 max-w-9xl text-neutral-300 leading-relaxed text-center">
     <p class="font-serif text-xl">
       Algumas viagens começam no mapa.<br />
       Outras começam quando você decide ouvir o que a estrada tem a dizer.
     </p>
   </section>
 
+  <Manifesto />
+  
 </BaseLayout>

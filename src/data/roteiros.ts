@@ -4,7 +4,7 @@ import { validateRoteiros } from "../utils/validateRoteiros";
 const roteiros: Roteiro[] = [
   {
     slug: "imigracao-italiana",
-    imagem: "/assets/roteiros/imigracao-italiana.jpg",
+    imagem: "/src/assets/roteiros/imigracao-italiana.jpg",
     categoria: "Históricas",
     titulo: "Imigração Italiana",
     subtitulo: "Estradas que contam a saga dos imigrantes italianos",

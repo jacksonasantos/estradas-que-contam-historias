@@ -1,0 +1,79 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+---
+
+<BaseLayout>
+
+  <!-- Introdução -->
+  <section class="px-6 md:px-20 py-32 max-w-4xl">
+    <h1 class="text-4xl md:text-5xl font-serif mb-8">
+      Vamos conversar?
+    </h1>
+
+    <p class="text-xl text-neutral-400 leading-relaxed">
+      Algumas viagens começam com uma pergunta simples.
+      Se você sente que um caminho está te chamando,
+      este é o lugar para começar.
+    </p>
+  </section>
+
+  <!-- Formulário -->
+  <section class="px-6 md:px-20 py-24 bg-neutral-900">
+    <div class="max-w-3xl">
+
+      <form class="grid grid-cols-1 gap-8">
+
+        <div>
+          <label class="block mb-2 text-sm text-neutral-400">
+            Seu nome
+          </label>
+          <input
+            type="text"
+            placeholder="Como podemos te chamar?"
+            class="w-full bg-transparent border-b border-neutral-600 focus:border-neutral-100 outline-none py-2"
+          />
+        </div>
+
+        <div>
+          <label class="block mb-2 text-sm text-neutral-400">
+            Email
+          </label>
+          <input
+            type="email"
+            placeholder="Para responder a conversa"
+            class="w-full bg-transparent border-b border-neutral-600 focus:border-neutral-100 outline-none py-2"
+          />
+        </div>
+
+        <div>
+          <label class="block mb-2 text-sm text-neutral-400">
+            Mensagem
+          </label>
+          <textarea
+            rows="4"
+            placeholder="Conte um pouco do que você está buscando na estrada"
+            class="w-full bg-transparent border-b border-neutral-600 focus:border-neutral-100 outline-none py-2 resize-none"
+          ></textarea>
+        </div>
+
+        <button
+          type="submit"
+          class="mt-8 border border-neutral-100 px-8 py-4 hover:bg-neutral-100 hover:text-neutral-950 transition self-start"
+        >
+          Enviar mensagem
+        </button>
+
+      </form>
+
+    </div>
+  </section>
+
+  <!-- Fechamento -->
+  <section class="px-6 md:px-20 py-24 max-w-4xl">
+    <p class="text-neutral-400 font-serif text-lg">
+      Não existe pergunta errada.
+      Toda boa viagem começa com curiosidade.
+    </p>
+  </section>
+
+</BaseLayout>

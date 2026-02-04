@@ -1,0 +1,71 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import roteiros from "../data/roteiros"; // ajuste aqui para garantir importação correta
+import RoteiroCard from "../components/RoteiroCard.astro";
+const categorias = [...new Set(roteiros.map(r => r.categoria))];
+---
+
+<BaseLayout>
+
+  <!-- Cabeçalho -->
+  <section class="px-6 md:px-20 py-32 max-w-4xl">
+    <h1 class="text-5xl font-serif mb-6">Roteiros</h1>
+    <p class="text-neutral-400 text-lg">
+      Viagens de moto organizadas por tipo de experiência.
+      Escolha a estrada que mais conversa com você.
+    </p>
+  </section>
+
+  <!-- Filtro -->
+  <section class="px-6 md:px-20 pb-16">
+    <div class="flex gap-4 flex-wrap">
+      <button class="filter-btn active" data-filter="Todos">Todos</button>
+      {categorias.map(cat => (
+        <button class="filter-btn" data-filter={cat}>
+          {cat}
+        </button>
+      ))}
+    </div>
+  </section>
+
+  <!-- Lista -->
+  <section class="px-6 md:px-20 pb-32">
+    <ul id="roteiros-lista" class="space-y-4 max-w-3xl">
+      {roteiros.map(r => (
+        <li data-categoria={r.categoria ?? "Sem categoria"}>
+          <RoteiroCard roteiro={r} />
+        </li>
+      ))}
+    </ul>
+  </section>
+
+</BaseLayout>
+
+<!-- JS mínimo -->
+<script is:inline>
+  document.addEventListener("DOMContentLoaded", () => {
+    const buttons = document.querySelectorAll(".filter-btn");
+    const items = document.querySelectorAll("#roteiros-lista li");
+
+    buttons.forEach(btn => {
+      btn.addEventListener("click", () => {
+        buttons.forEach(b => b.classList.remove("active"));
+        btn.classList.add("active");
+
+        const filter = btn.getAttribute("data-filter");
+        // Depuração
+        // console.log("Filtro:", filter);
+
+        items.forEach(item => {
+          const categoria = item.getAttribute("data-categoria") || "Sem categoria";
+          // console.log("Categoria:", categoria);
+
+          item.style.display =
+            filter === "Todos" || categoria === filter
+              ? "block"
+              : "none";
+        });
+      });
+    });
+  });
+</script>

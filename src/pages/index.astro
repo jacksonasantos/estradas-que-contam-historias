@@ -1,20 +1,17 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
-import Hero from "../components/Hero.astro";
+import HeroHome from "../components/HeroHome.astro";
+import HomeManifesto from "../components/HomeManifesto.astro";
+import HomeDiferenciais from "../components/HomeDiferenciais.astro";
+import HomeRoteiros from "../components/HomeRoteiros.astro";
+import HomeConvite from "../components/HomeConvite.astro";
 ---
 
-<BaseLayout title="Estradas que Contam Histórias">
-  <Hero />
 
-  <section class="px-6 md:px-20 py-24 max-w-4xl">
-    <h2 class="text-2xl font-serif mb-6">
-      Viajar com propósito
-    </h2>
-
-    <p class="text-neutral-300 leading-relaxed">
-      Não acreditamos em viagens apressadas.
-      Cada roteiro nasce de pesquisa, estrada e escuta.
-      Aqui, a moto é o meio — a história é o destino.
-    </p>
-  </section>
+<BaseLayout>
+  <HeroHome />
+  <HomeManifesto />
+  <HomeDiferenciais />
+  <HomeRoteiros />
+  <HomeConvite />
 </BaseLayout>

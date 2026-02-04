@@ -1,14 +1,34 @@
 ---
-const { title = "Estradas que Contam Histórias" } = Astro.props;
+import Header from "../components/Header.astro";
+import Footer from "../components/Footer.astro";
+import "../styles/global.css";
+
+const { title = "Estradas que Contam Histórias | Viagens de Moto" } = Astro.props;
 ---
 <!DOCTYPE html>
 <html lang="pt-br">
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" /> 
+    <meta name="description" content="Passeios e viagens de moto por estradas que guardam histórias, cultura e paisagens. Roteiros autorais para quem acredita que viajar é mais do que chegar." />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content="Viagens de moto por estradas que carregam histórias." />
+    <meta property="og:type" content="website" />
     <title>{title}</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <!--link rel="canonical" href="https://estradasquecontamhistorias.com" /-->
   </head>
-  <body class="bg-neutral-950 text-neutral-100 font-sans">
-    <slot />
+
+<body class="bg-neutral-950 text-neutral-100 antialiased">
+    <Header />
+
+    <!-- Espaço para o header fixo -->
+    <main class="pt-16">
+      <slot />
+    </main>
+
+    <Footer />
   </body>
 </html>

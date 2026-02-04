@@ -1,0 +1,30 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import RoteiroCard from "../../components/RoteiroCard.astro";
+import listaRoteiros from "../../data/roteiros";
+---
+
+<BaseLayout title="Roteiros | Estradas que Contam Histórias">
+
+  <!-- HERO -->
+  <section class="px-6 md:px-20 py-24 max-w-4xl">
+    <h1 class="text-4xl font-serif mb-6">
+      Roteiros que contam histórias
+    </h1>
+
+    <p class="text-neutral-400 leading-relaxed">
+      Cada roteiro foi pensado para quem acredita que viajar de moto
+      é mais do que chegar ao destino — é viver o caminho.
+    </p>
+  </section>
+
+  <!-- LISTA -->
+  <section class="px-6 md:px-20 pb-32">
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+      {listaRoteiros.map((roteiro: unknown) => (
+        <RoteiroCard roteiro={roteiro} />
+      ))}
+    </div>
+  </section>
+
+</BaseLayout>

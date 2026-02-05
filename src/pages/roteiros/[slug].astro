@@ -1,7 +1,7 @@
 ---
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import roteiros from "../../data/roteiros";
-import { ICONS } from "../../data/icons";
+import { CATEGORIAS } from "../../data/categorias";
 
 // Função obrigatória para rotas dinâmicas Astro
 export async function getStaticPaths() {
@@ -18,7 +18,8 @@ const roteiro = Array.isArray(roteiros)
 const experiencia = Array.isArray(roteiro?.experiencia) ? roteiro.experiencia : [];
 const caminho = Array.isArray(roteiro?.caminho) ? roteiro.caminho : [];
 const imagem = roteiro?.imagem ?? "";
-const Icon = ICONS[roteiro?.categoria];
+const categoria = CATEGORIAS.find(c => c.id === roteiro?.categoria);
+const iconPath = categoria?.icon;
 ---
 
 {roteiro ? (
@@ -28,7 +29,9 @@ const Icon = ICONS[roteiro?.categoria];
     <section class="relative min-h-[70vh] flex flex-col md:flex-row items-center px-6 md:px-20 pb-8">
       <div class="px-6 md:px-20 py-10 bg-neutral-900 rounded-lg shadow-lg mb-6 md:mb-0 md:mr-6 flex-1">
         <div class="flex items-center gap-3 mb-2">
-          {Icon && <Icon size={32} class="text-neutral-300" />}
+          {iconPath && (
+            <img src={iconPath} alt={categoria?.label} width="32" height="32" class="inline-block align-middle" style="filter: invert(80%) sepia(0%) saturate(0%) hue-rotate(0deg) brightness(90%) contrast(90%);" />
+          )}
           <h1 class="text-4xl md:text-1xl font-serif wrap-break-word">
             {roteiro.titulo}
           </h1>

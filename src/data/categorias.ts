@@ -8,33 +8,13 @@ export type CategoriaId =
 export interface Categoria {
   id: CategoriaId;
   label: string;
-  icon: string; // nome do ícone (ou SVG)
+  icon: string; // Caminho para o ícone
 }
 
 export const CATEGORIAS: Categoria[] = [
-  {
-    id: "historicas",
-    label: "Históricas",
-    icon: "temple",
-  },
-  {
-    id: "cenicas",
-    label: "Cênicas / Famosas",
-    icon: "mountain",
-  },
-  {
-    id: "tematicas",
-    label: "Temáticas Especiais",
-    icon: "compass",
-  },
-  {
-    id: "cinematograficas",
-    label: "Temáticas Cinematográficas",
-    icon: "clapperboard",
-  },
-  {
-    id: "serras",
-    label: "Serras",
-    icon: "mountains",
-  },
+  {id: "historicas",        label: "Históricas",                  icon: "/landmark.svg",},
+  {id: "cenicas",           label: "Cênicas / Famosas",           icon: "/mountain.svg",},
+  {id: "tematicas",         label: "Temáticas Especiais",         icon: "/compass.svg",},
+  {id: "cinematograficas",  label: "Temáticas Cinematográficas",  icon: "/clapperboard.svg",},
+  {id: "serras",            label: "Serras",                      icon: "/mountainsnow.svg",},
 ];

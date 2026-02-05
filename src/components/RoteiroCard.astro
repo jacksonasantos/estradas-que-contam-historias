@@ -1,10 +1,9 @@
 ---
 const { roteiro } = Astro.props;
 import { CATEGORIAS } from "../data/categorias";
-import { ICONS } from "../data/icons";
 
 const categoria = CATEGORIAS.find(c => c.id === roteiro.categoria);
-const iconPath = ICONS[roteiro.categoria];
+const iconPath = categoria?.icon;
 ---
 
 <a href={`/roteiros/${roteiro.slug}`}

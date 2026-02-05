@@ -5,16 +5,65 @@
     font-family: "Inter", system-ui, sans-serif;
   }
 
+  /* Esconde scrollbar mas mantém scroll */
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+  
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+
   .filter-btn {
-    @apply border border-neutral-700 px-4 py-2 text-sm text-neutral-400 hover:text-neutral-100 transition;
+    @apply flex items-center gap-2
+          whitespace-nowrap
+          px-5 py-3
+          rounded-full
+          border border-neutral-800
+          text-sm font-medium
+          text-neutral-400
+          transition-all duration-300
+          hover:border-neutral-600
+          hover:text-neutral-200;
   }
 
   .filter-btn.active {
-    @apply border-neutral-100 text-neutral-100;
+    @apply bg-neutral-900
+          text-white
+          border-neutral-500
+          shadow-lg;
+  }
+
+  .filter-btn .count {
+    @apply text-xs px-2 py-0.5
+          rounded-full
+          bg-neutral-800
+          text-neutral-300;
+  }
+
+  .filter-btn.active .count {
+    @apply bg-white text-neutral-900;
   }
 
   h1, h2, h3, h4 {
     font-family: "Playfair Display", serif;
     letter-spacing: 0.02em;
+  }
+
+  .label {
+    @apply text-xs uppercase font-bold tracking-wider text-neutral-500;
+  }
+
+  .value {
+    @apply text-lg text-neutral-200;
+  }
+
+  .section-title {
+    @apply text-3xl font-serif mb-6;
+  }
+
+  .section-text {
+    @apply text-neutral-300 leading-relaxed text-lg;
   }
 }

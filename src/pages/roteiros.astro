@@ -4,21 +4,19 @@ import roteiros from "../data/roteiros";
 import RoteiroCard from "../components/RoteiroCard.astro";
 import { CATEGORIAS } from "../data/categorias";
 
+// total geral
+const totalRoteiros = roteiros.length;
+// categorias únicas
 const categorias = [...new Set(roteiros.map(r => r.categoria))];
-const categoriasCount = roteiros.reduce<Record<string, number>>(
-  (acc, roteiro) => {
-    acc[roteiro.categoria] = (acc[roteiro.categoria] || 0) + 1;
-    return acc;
-  },
-  {}
-);
-// Alimenta categoriaLabels e categoriaIcons a partir de CATEGORIAS
-const categoriaLabels = Object.fromEntries(
-  CATEGORIAS.map(cat => [cat.id, cat.label])
-);
-const categoriaIcons = Object.fromEntries(
-  CATEGORIAS.map(cat => [cat.id, cat.icon])
-);
+// contagem por categoria
+const contagem = categorias.map(cat => ({
+  nome: cat,
+  total: roteiros.filter(r => r.categoria === cat).length
+}));
+
+// Gera um map para pegar o label e o ícone da categoria pelo id
+const categoriaLabels = Object.fromEntries(CATEGORIAS.map(c => [c.id, c.label]));
+const categoriaIcons = Object.fromEntries(CATEGORIAS.map(c => [c.id, c.icon]));
 ---
 
 <BaseLayout>
@@ -41,23 +39,33 @@ const categoriaIcons = Object.fromEntries(
 
       <!-- Filtro -->
       <section class="px-6 md:px-20 pb-16">
-        <div class="flex gap-3 flex-wrap">
-          <button class="filter-btn active" data-filter="Todos">
-            Todos ({roteiros.length})
-          </button>
-          {categorias.map(cat => {
-            const label = categoriaLabels[cat] ?? cat;
-            const iconPath = categoriaIcons[cat];
-            return (
-              <button
-                class="filter-btn flex items-center gap-2"
-                data-filter={cat}
-              >
-                <img src={iconPath} alt={label} width="16" height="16" class="inline-block mr-1 align-middle" style="filter: invert(80%) sepia(0%) saturate(0%) hue-rotate(0deg) brightness(90%) contrast(90%);"/> 
-                <span>{label} ({categoriasCount[cat] || 0})</span>
-              </button>
-            );
-          })}
+        <div
+            class="flex gap-4 overflow-x-auto scrollbar-hide py-2"
+            id="filtros"
+        >
+            <!-- Todos -->
+            <button class="filter-btn active" data-filter="Todos">
+            <span>Todos</span>
+            <span class="count">{totalRoteiros}</span>
+            </button>
+
+            <!-- Categorias -->
+            {contagem.map(cat => (
+            <button class="filter-btn" data-filter={cat.nome}>
+                {categoriaIcons[cat.nome] && (
+                  <img
+                    src={categoriaIcons[cat.nome]}
+                    alt={categoriaLabels[cat.nome] ?? cat.nome}
+                    width="16"
+                    height="16"
+                    class="inline-block mr-1 align-middle"
+                    style="filter: invert(80%) sepia(0%) saturate(0%) hue-rotate(0deg) brightness(90%) contrast(90%);"
+                  />
+                )}
+                <span>{categoriaLabels[cat.nome] ?? cat.nome}</span>
+                <span class="count">{cat.total}</span>
+            </button>
+            ))}
         </div>
       </section>
 

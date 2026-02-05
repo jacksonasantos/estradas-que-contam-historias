@@ -4,32 +4,41 @@ import { CATEGORIAS } from "../data/categorias";
 import { ICONS } from "../data/icons";
 
 const categoria = CATEGORIAS.find(c => c.id === roteiro.categoria);
-// Corrige o caminho para servir do /public (remova /src)
 const iconPath = ICONS[roteiro.categoria];
 ---
 
 <a href={`/roteiros/${roteiro.slug}`}
-   class="group border border-neutral-800 hover:border-neutral-400 transition p-6 flex flex-col justify-between">
-
-  <div>
-    <div class="flex items-center justify-between mb-2">
-      <h3 class="text-xl font-serif group-hover:underline m-0">
-        {roteiro.titulo}
-      </h3>
-    </div>
-    <p class="text-neutral-400 text-sm mb-4">
-      {roteiro.subtitulo}
-    </p>
+   class="group border border-neutral-800 hover:border-neutral-400 transition rounded-lg p-2 flex flex-row items-center justify-between"
+   style="background: rgba(255,255,255,0.2);"
+>
+  <div class="shrink-0 w-38 h-38 mr-4 flex items-center justify-center">
+    <img
+      src={roteiro.imagem}
+      alt={roteiro.titulo}
+      class="w-full h-full object-cover rounded-lg"
+      loading="lazy"
+    />
   </div>
-
-  <div class="text-sm text-neutral-500 space-y-1">
-    {roteiro.regiao}
-    <div class="flex items-center justify-between">
-      <span>{roteiro.distancia} · {roteiro.duracao}</span>
-      <span class="flex items-center ml-2">
-        <img src={iconPath} alt={categoria?.label} width="16" height="16" class="inline-block mr-1 align-middle" style="filter: invert(80%) sepia(0%) saturate(0%) hue-rotate(0deg) brightness(90%) contrast(90%);" />
-        {categoria && categoria.label}
-      </span>
+  <div class="flex-1 flex flex-col justify-between">
+    <div>
+      <div class="flex items-center justify-between mb-2">
+        <h3 class="text-xl font-serif group-hover:underline m-0">
+          {roteiro.titulo}
+        </h3>
+      </div>
+      <p class="text-neutral-400 text-sm mb-4">
+        {roteiro.subtitulo}
+      </p>
+    </div>
+    <div class="text-sm text-neutral-300 space-y-1">
+      {roteiro.regiao}
+      <div class="flex items-center justify-between">
+        <span>{roteiro.distancia} · {roteiro.duracao}</span>
+        <span class="flex items-center ml-2">
+          <img src={iconPath} alt={categoria?.label} width="16" height="16" class="inline-block mr-1 align-middle" style="filter: invert(80%) sepia(0%) saturate(0%) hue-rotate(0deg) brightness(90%) contrast(90%);" />
+          {categoria && categoria.label}
+        </span>
+      </div>
     </div>
   </div>
 </a>

@@ -5,7 +5,6 @@ import RoteiroCard from "../components/RoteiroCard.astro";
 import { ICONS } from "../data/icons";
 
 const categorias = [...new Set(roteiros.map(r => r.categoria))];
-
 const categoriasCount = roteiros.reduce<Record<string, number>>(
   (acc, roteiro) => {
     acc[roteiro.categoria] = (acc[roteiro.categoria] || 0) + 1;

@@ -1,10 +1,8 @@
+import type { CategoriaId } from "../data/categorias";
+
 export type Roteiro = {
   slug: string;
-  categoria:
-    | "Históricas"
-    | "Cênicas / Famosas"
-    | "Temáticas Especiais"
-    | "Temáticas Cinematográficas";
+  categoria: CategoriaId;
   titulo: string;
   subtitulo: string;
   regiao: string;

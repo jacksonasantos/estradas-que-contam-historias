@@ -1,22 +1,33 @@
 ---
 const { roteiro } = Astro.props;
+import { CATEGORIAS } from "../data/categorias";
+import { ICONS } from "../data/icons";
+
+const categoria = CATEGORIAS.find(c => c.id === roteiro.categoria);
+const Icon = ICONS[roteiro.categoria];
 ---
 
 <a href={`/roteiros/${roteiro.slug}`}
    class="group border border-neutral-800 hover:border-neutral-400 transition p-6 flex flex-col justify-between">
 
   <div>
-    <h3 class="text-xl font-serif mb-2 group-hover:underline">
-      {roteiro.titulo}
-    </h3>
-
+    <div class="flex items-center justify-between mb-2">
+      <h3 class="text-xl font-serif group-hover:underline m-0">
+        {roteiro.titulo}
+      </h3>
+    </div>
     <p class="text-neutral-400 text-sm mb-4">
       {roteiro.subtitulo}
     </p>
   </div>
 
   <div class="text-sm text-neutral-500 space-y-1">
-    <div>{roteiro.regiao}</div>
-    <div>{roteiro.distancia} · {roteiro.duracao}</div>
+    {roteiro.regiao}
+    <div class="flex items-center justify-between">
+      <span>{roteiro.distancia} · {roteiro.duracao}</span>
+      <span class="flex items-center ml-2">
+        {Icon && <Icon size={16} class="inline-block mr-1" />} {categoria && categoria.label}
+      </span>
+    </div>
   </div>
 </a>

@@ -11,11 +11,25 @@ import {
 } from "lucide-astro";
 const categorias = [...new Set(roteiros.map(r => r.categoria))];
 const iconMap = {
-  "Históricas": Landmark,
-  "Cênicas / Famosas": Mountain,
-  "Temáticas Especiais": Compass,
-  "Temáticas Cinematográficas": Clapperboard,
-  "Serras": MountainSnow
+  "historicas": Landmark,
+  "cenicas": Mountain,
+  "tematicas": Compass,
+  "cinematograficas": Clapperboard,
+  "serras": MountainSnow
+};
+const categoriasCount = roteiros.reduce<Record<string, number>>(
+  (acc, roteiro) => {
+    acc[roteiro.categoria] = (acc[roteiro.categoria] || 0) + 1;
+    return acc;
+  },
+  {}
+);
+const categoriaLabels = {
+  "historicas": "Históricas",
+  "cenicas": "Cênicas / Famosas",
+  "tematicas": "Temáticas Especiais",
+  "cinematograficas": "Cinematográficas",
+  "serras": "Serras"
 };
 ---
 
@@ -34,17 +48,18 @@ const iconMap = {
 <section class="px-6 md:px-20 pb-16">
   <div class="flex gap-3 flex-wrap">
     <button class="filter-btn active" data-filter="Todos">
-      Todos
+      Todos ({roteiros.length})
     </button>
     {categorias.map(cat => {
       const Icon = iconMap[cat];
+      const label = categoriaLabels[cat] ?? cat;
       return (
         <button
           class="filter-btn flex items-center gap-2"
           data-filter={cat}
         >
           {Icon && <Icon size={20} />}
-          <span>{cat}</span>
+          <span>{label} ({categoriasCount[cat] || 0})</span>
         </button>
       );
     })}

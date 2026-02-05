@@ -4,7 +4,8 @@ import { CATEGORIAS } from "../data/categorias";
 import { ICONS } from "../data/icons";
 
 const categoria = CATEGORIAS.find(c => c.id === roteiro.categoria);
-const Icon = ICONS[roteiro.categoria];
+// Corrige o caminho para servir do /public (remova /src)
+const iconPath = ICONS[roteiro.categoria];
 ---
 
 <a href={`/roteiros/${roteiro.slug}`}
@@ -26,7 +27,8 @@ const Icon = ICONS[roteiro.categoria];
     <div class="flex items-center justify-between">
       <span>{roteiro.distancia} · {roteiro.duracao}</span>
       <span class="flex items-center ml-2">
-        {Icon && <Icon size={16} class="inline-block mr-1" />} {categoria && categoria.label}
+        <img src={iconPath} alt={categoria?.label} width="16" height="16" class="inline-block mr-1 align-middle" style="filter: invert(80%) sepia(0%) saturate(0%) hue-rotate(0deg) brightness(90%) contrast(90%);" />
+        {categoria && categoria.label}
       </span>
     </div>
   </div>

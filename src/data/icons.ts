@@ -1,15 +1,7 @@
-import {
-  Landmark,
-  Mountain,
-  Compass,
-  Clapperboard,
-  MountainSnow,
-} from "lucide-astro";
-
 export const ICONS = {
-  historicas: Landmark,
-  cenicas: Mountain,
-  tematicas: Compass,
-  cinematograficas: Clapperboard,
-  serras: MountainSnow,
+  historicas: "/landmark.svg",
+  cenicas: "/mountain.svg",
+  tematicas: "/compass.svg",
+  cinematograficas: "/clapperboard.svg",
+  serras: "/mountainsnow.svg",
 };

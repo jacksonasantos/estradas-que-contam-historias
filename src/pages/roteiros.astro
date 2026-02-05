@@ -1,22 +1,11 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
-import roteiros from "../data/roteiros"; // ajuste aqui para garantir importação correta
+import roteiros from "../data/roteiros";
 import RoteiroCard from "../components/RoteiroCard.astro";
-import {
-  Landmark,
-  Mountain,
-  Compass,
-  Clapperboard,
-  MountainSnow
-} from "lucide-astro";
+import { ICONS } from "../data/icons";
+
 const categorias = [...new Set(roteiros.map(r => r.categoria))];
-const iconMap = {
-  "historicas": Landmark,
-  "cenicas": Mountain,
-  "tematicas": Compass,
-  "cinematograficas": Clapperboard,
-  "serras": MountainSnow
-};
+
 const categoriasCount = roteiros.reduce<Record<string, number>>(
   (acc, roteiro) => {
     acc[roteiro.categoria] = (acc[roteiro.categoria] || 0) + 1;
@@ -34,52 +23,59 @@ const categoriaLabels = {
 ---
 
 <BaseLayout>
+  <div class="relative">
+    <img
+      src="/hero.png"
+      alt="Marca d'água"
+      class="fixed inset-0 w-full h-full object-cover opacity-20 pointer-events-none z-0"
+      style="top:0;left:0;"
+    />
+    <div class="relative z-10">
+      <!-- Cabeçalho -->
+      <section class="px-6 md:px-20 py-12 max-w-4xl">
+        <h1 class="text-5xl font-serif mb-6">Roteiros</h1>
+        <p class="text-neutral-400 text-lg">
+          Viagens de moto organizadas por tipo de experiência.
+          Escolha a estrada que mais conversa com você.
+        </p>
+      </section>
 
-  <!-- Cabeçalho -->
-  <section class="px-6 md:px-20 py-12 max-w-4xl">
-    <h1 class="text-5xl font-serif mb-6">Roteiros</h1>
-    <p class="text-neutral-400 text-lg">
-      Viagens de moto organizadas por tipo de experiência.
-      Escolha a estrada que mais conversa com você.
-    </p>
-  </section>
+      <!-- Filtro -->
+      <section class="px-6 md:px-20 pb-16">
+        <div class="flex gap-3 flex-wrap">
+          <button class="filter-btn active" data-filter="Todos">
+            Todos ({roteiros.length})
+          </button>
+          {categorias.map(cat => {
+            const label = categoriaLabels[cat] ?? cat;
+            return (
+              <button
+                class="filter-btn flex items-center gap-2"
+                data-filter={cat}
+              >
+                <img src={ICONS[cat]} alt={categoriaLabels[cat] ?? cat} width="16" height="16" class="inline-block mr-1 align-middle" style="filter: invert(80%) sepia(0%) saturate(0%) hue-rotate(0deg) brightness(90%) contrast(90%);"/> 
+                <span>{label} ({categoriasCount[cat] || 0})</span>
+              </button>
+            );
+          })}
+        </div>
+      </section>
 
-  <!-- Filtro -->
-<section class="px-6 md:px-20 pb-16">
-  <div class="flex gap-3 flex-wrap">
-    <button class="filter-btn active" data-filter="Todos">
-      Todos ({roteiros.length})
-    </button>
-    {categorias.map(cat => {
-      const Icon = iconMap[cat];
-      const label = categoriaLabels[cat] ?? cat;
-      return (
-        <button
-          class="filter-btn flex items-center gap-2"
-          data-filter={cat}
+      <!-- Lista -->
+      <section class="px-6 md:px-20 pb-16">
+        <ul
+          id="roteiros-lista"
+          class="grid grid-cols-1 md:grid-cols-3 gap-4 max-w-9xl"
         >
-          {Icon && <Icon size={20} />}
-          <span>{label} ({categoriasCount[cat] || 0})</span>
-        </button>
-      );
-    })}
+          {roteiros.map(r => (
+            <li data-categoria={r.categoria ?? "Sem categoria"}>
+              <RoteiroCard roteiro={r} />
+            </li>
+          ))}
+        </ul>
+      </section>
+    </div>
   </div>
-</section>
-
-  <!-- Lista -->
-  <section class="px-6 md:px-20 pb-16">
-    <ul
-      id="roteiros-lista"
-      class="grid grid-cols-1 md:grid-cols-3 gap-4 max-w-9xl"
-    >
-      {roteiros.map(r => (
-        <li data-categoria={r.categoria ?? "Sem categoria"}>
-          <RoteiroCard roteiro={r} />
-        </li>
-      ))}
-    </ul>
-  </section>
-
 </BaseLayout>
 
 <!-- JS mínimo -->

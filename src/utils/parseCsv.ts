@@ -1,6 +1,6 @@
 import fs from "fs/promises";
 
-export async function parseRoteirosCsv(csvPath: URL): Promise<any[]> {
+export async function parseCsv(csvPath: URL): Promise<any[]> {
   // Lê o arquivo CSV com encoding utf-8 explícito
   const raw = await fs.readFile(csvPath, { encoding: "utf-8" });
   const [header, ...lines] = raw.split(/\r?\n/).filter(Boolean);

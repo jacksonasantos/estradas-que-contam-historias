@@ -5,7 +5,7 @@ import "../styles/global.css";
 
 const { title = "Estradas que Contam Histórias | Viagens de Moto" } = Astro.props;
 ---
-
+ 
 <!DOCTYPE html>
 <html lang="pt-br">
   <head>
@@ -19,17 +19,15 @@ const { title = "Estradas que Contam Histórias | Viagens de Moto" } = Astro.pro
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
-    <!--link rel="canonical" href="https://estradasquecontamhistorias.com" /-->
+    <link rel="icon" type="image/x-icon" href="/favicon.ico" />
   </head>
 
 <body class="bg-neutral-950 text-neutral-100 antialiased">
     <Header />
-
     <!-- Espaço para o header fixo -->
     <main class="pt-16">
       <slot />
     </main>
-
     <Footer />
   </body>
 </html>

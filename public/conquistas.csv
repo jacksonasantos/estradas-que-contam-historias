@@ -1,0 +1,4 @@
+id;slug;shortName;name;tipo;city;state;country;lat;lng;cidadeFim;estadoFim;comprimentoKm;imagem;nota;status
+1;serra-do-rio-do-rastro;SRR;Serra do Rio do Rastro;1;Lauro Müller;SC;Brasil;-28.393;-49.485;;;10;;1;ativa
+2;rota-romantica;Rota Romântica;Rota Romântica RS;2;Nova Petrópolis;RS;Brasil;-29.376;-51.114;;;115;/src/assets/achievements/rota-romantica.png;1;ativa
+3;serra-do-corv0-branco;Corvo Branco;Serra do Corvo Branco;1;Rio;SC;Brasil;-30.376;-52.114;;;12;/src/assets/achievements/serra-do-corvo-branco.png;1;ativa

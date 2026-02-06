@@ -39,14 +39,11 @@ const categoriaIcons = Object.fromEntries(CATEGORIAS.map(c => [c.id, c.icon]));
 
       <!-- Filtro -->
       <section class="px-6 md:px-20 pb-16">
-        <div
-            class="flex gap-4 overflow-x-auto scrollbar-hide py-2"
-            id="filtros"
-        >
+        <div id="filtros" class="flex gap-4 overflow-x-auto scrollbar-hide py-2">
             <!-- Todos -->
             <button class="filter-btn active" data-filter="Todos">
-            <span>Todos</span>
-            <span class="count">{totalRoteiros}</span>
+              <span>Todos</span>
+              <span class="count">{totalRoteiros}</span>
             </button>
 
             <!-- Categorias -->
@@ -71,10 +68,7 @@ const categoriaIcons = Object.fromEntries(CATEGORIAS.map(c => [c.id, c.icon]));
 
       <!-- Lista -->
       <section class="px-6 md:px-20 pb-16">
-        <ul
-          id="roteiros-lista"
-          class="grid grid-cols-1 md:grid-cols-3 gap-4 max-w-9xl"
-        >
+        <ul id="roteiros-lista" class="grid grid-cols-1 md:grid-cols-3 gap-4 max-w-9xl">
           {roteiros.map(r => (
             <li data-categoria={r.categoria ?? "Sem categoria"}>
               <RoteiroCard roteiro={r} />

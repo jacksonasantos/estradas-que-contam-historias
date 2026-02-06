@@ -95,7 +95,6 @@ const categoriaIcons = Object.fromEntries(CATEGORIAS.map(c => [c.id, c.icon]));
 
         items.forEach(item => {
           const categoria = item.getAttribute("data-categoria") || "Sem categoria";
-
           item.style.display =
             filter === "Todos" || categoria === filter
               ? "block"

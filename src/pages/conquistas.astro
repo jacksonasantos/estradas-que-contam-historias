@@ -1,6 +1,7 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
 import conquistas from "../data/conquistas";
+import ConquistaCard from "../components/ConquistaCard.astro";
 import { CONQUISTAS_TIPO } from "../data/conquistas_tipo";
 
 // Categorias únicas
@@ -14,104 +15,122 @@ const contagem = tipos.map(tipo => ({
   total: conquistas.filter(c => c.tipo === tipo).length
 }));
 
+// Contagem por estado
+const contagemEstado = [...new Set(conquistas.map(c => c.state))].map(state => ({
+  id: state,
+  label: state,
+  total: conquistas.filter(c => c.state === state).length
+}));
+
 const totalConquistas = conquistas.length;
 ---
 
 <BaseLayout title="Conquistas">
-  <section class="px-6 md:px-20 py-12 max-w-5xl">
-    <h1 class="text-5xl font-serif mb-4">Conquistas</h1>
-    <p class="text-neutral-400 text-lg">
-      Estradas, serras e lugares que marcam jornadas memoráveis.
-    </p>
-  </section>
+  <div class="relative">
+    <div class="relative z-10">
+      <!-- Cabeçalho -->
+      <section class="px-6 md:px-20 py-12 max-w-5xl">
+        <h1 class="text-5xl font-serif mb-4">Conquistas</h1>
+        <p class="text-neutral-400 text-lg">
+          Estradas, serras e lugares que marcam jornadas memoráveis.
+        </p>
+      </section>
 
-  <!-- Filtros -->
-  <section class="px-6 md:px-20 pb-16 ">
-    <div class="flex gap-4 overflow-x-auto scrollbar-hide py-2" id="filtros-conquistas">
-      <button class="filter-btn active" data-filter="Todos">
-        <span>Todos</span>
-        <span class="count">{totalConquistas}</span>
-      </button>
-      {contagem.map(tipo => (
-        <button class="filter-btn flex items-center gap-2" data-filter={tipo.id}>
-          {tipo.icon && (
-            <img src={tipo.icon} alt={tipo.label} width="16" height="16" class="inline-block mr-1 align-middle"/>
-          )}
-          <span>{tipo.label}</span>
-          <span class="count">{tipo.total}</span>
-        </button>
-      ))}
-    </div>
-  </section>
+      <!-- Filtros Tipo -->
+      <section class="px-6 md:px-20 pb-1 ">
+        <div id="filtros-conquistas" class="flex gap-4 overflow-x-auto scrollbar-hide py-2">
+          <!-- Todos -->
+          <button class="filter-btn active" data-filter="Todos">
+            <span>Todos</span>
+            <span class="count">{totalConquistas}</span>
+          </button>
+          
+          <!-- Categorias -->
+          {contagem.map(tipo => (
+            <button class="filter-btn" data-filter={tipo.id}>
+              {tipo.icon && (
+                <img src={tipo.icon} alt={tipo.label} width="16" height="16" class="inline-block mr-1 align-middle"/>
+              )}
+              <span>{tipo.label}</span>
+              <span class="count">{tipo.total}</span>
+            </button>
+          ))}
+        </div>
+      </section>
 
-  <section class="px-6 md:px-20 pb-32">
-    <ul id="conquistas-lista" class="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-      {conquistas.map((c) => {
-        const tipo = CONQUISTAS_TIPO.find(t => t.id === c.tipo);
-        return (
-          <>
-            <li class="border border-neutral-800 rounded-xl p-2 hover:border-neutral-600 transition flex items-center gap-3" data-tipo={c.tipo}>
-              <a 
-                href={`/conquistas/${c.slug}`}>
-                {c.imagem && (
-                  <img src={c.imagem} alt={c.name} class="w-18 h-18 object-cover rounded-lg shrink-0" />
-                )} 
-              </a> 
-              <div class="flex-1">
-                <div class="flex items-center gap-3">
-                  {tipo ? (
-                    <>
-                      <img src={tipo.icon} alt={tipo.label} class="w-6 h-6 opacity-80" />
-                      <span class="text-xs uppercase tracking-wider text-neutral-400">
-                        {tipo.label}
-                      </span>
-                    </>
-                  ) : (
-                    <> 
-                      <span class="w-6 h-6 opacity-80 inline-block bg-neutral-700 rounded"></span>
-                      <span class="text-xs uppercase tracking-wider text-neutral-400">
-                        Tipo desconhecido
-                      </span>
-                    </>
-                  )}
-                </div>
+      <!-- Filtros Estado -->
+      <section class="px-6 md:px-20 pb-6 ">
+        <div id="filtros-conquistas-estado" class="flex gap-4 overflow-x-auto scrollbar-hide py-2">
+          <!-- Todos -->
+          <button class="filter-btn active" data-filter="Todos">
+            <span>Todos</span>
+            <span class="count">{totalConquistas}</span>
+          </button>
+          
+          <!-- Categorias -->
+          {contagemEstado.map(estado => (
+            <button class="filter-btn" data-filter={estado.id}>
+              <span>{estado.label}</span>
+              <span class="count">{estado.total}</span>
+            </button>
+          ))}
+        </div>
+      </section>
 
-                <h2 class="text-lg font-medium">{c.name}</h2>
-
-                <p class="text-sm text-neutral-500 mt-1">
-                  {c.city}, {c.state} • {c.country}
-                </p>
-
-              </div>
+      <!-- Lista -->
+      <section class="px-6 md:px-20 pb-16">
+        <ul id="conquistas-lista" class="grid grid-cols-1 md:grid-cols-3 gap-4 max-w-9xl">
+          {conquistas.map(c => (
+            <li data-tipo={c.tipo} data-estado={c.state}>
+              <ConquistaCard c={c} />
             </li>
-          </>
-        );
-      })}
-    </ul>
-  </section>
+          ))}  
+        </ul>
+      </section>
+    </div> 
+  </div>  
 </BaseLayout>
 
 <!-- JS mínimo -->
 <script is:inline>
   document.addEventListener("DOMContentLoaded", () => {
-    const buttons = document.querySelectorAll("#filtros-conquistas .filter-btn");
+    // Filtro por tipo
+    const tipoButtons = document.querySelectorAll("#filtros-conquistas .filter-btn");
+    // Filtro por estado
+    const estadoButtons = document.querySelectorAll("#filtros-conquistas-estado .filter-btn");
     const items = document.querySelectorAll("#conquistas-lista li");
 
-    buttons.forEach(btn => {
+    let tipoAtivo = "Todos";
+    let estadoAtivo = "Todos";
+
+    tipoButtons.forEach(btn => {
       btn.addEventListener("click", () => {
-        buttons.forEach(b => b.classList.remove("active"));
+        tipoButtons.forEach(b => b.classList.remove("active"));
         btn.classList.add("active");
+        tipoAtivo = btn.getAttribute("data-filter");
 
-        const filter = btn.getAttribute("data-filter");
-
-        items.forEach(item => {
-          const tipo = item.getAttribute("data-tipo") || "Sem tipo";
-          item.style.display =
-            filter === "Todos" || tipo === filter
-              ? "flex"
-              : "none";
-        });
+        filtrar();
       });
     });
+
+    estadoButtons.forEach(btn => {
+      btn.addEventListener("click", () => {
+        estadoButtons.forEach(b => b.classList.remove("active"));
+        btn.classList.add("active");
+        estadoAtivo = btn.getAttribute("data-filter");
+
+        filtrar();
+      });
+    });
+
+    function filtrar() {
+      items.forEach(item => {
+        const tipo = item.getAttribute("data-tipo") || "Sem tipo";
+        const estado = item.getAttribute("data-estado") || "Sem estado";
+        const tipoOk = tipoAtivo === "Todos" || tipo === tipoAtivo;
+        const estadoOk = estadoAtivo === "Todos" || estado === estadoAtivo;
+        item.style.display = tipoOk && estadoOk ? "block" : "none";
+      });
+    }
   });
 </script>

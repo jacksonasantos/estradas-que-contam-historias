@@ -48,9 +48,9 @@ const totalConquistas = conquistas.length;
           <!-- Categorias -->
           {contagem.map(tipo => (
             <button class="filter-btn" data-filter={tipo.id}>
-              {tipo.icon && (
+              {tipo.icon ? (
                 <img src={tipo.icon} alt={tipo.label} width="16" height="16" class="inline-block mr-1 align-middle"/>
-              )}
+              ) : null}
               <span>{tipo.label}</span>
               <span class="count">{tipo.total}</span>
             </button>

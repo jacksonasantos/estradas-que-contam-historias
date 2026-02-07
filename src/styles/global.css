@@ -18,7 +18,7 @@
   .filter-btn {
     @apply flex items-center gap-2
           whitespace-nowrap
-          px-5 py-3
+          px-5 py-2
           rounded-full
           border border-neutral-500
           text-sm font-medium

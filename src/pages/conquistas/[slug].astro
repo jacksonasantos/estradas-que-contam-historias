@@ -1,0 +1,156 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import conquistas from "../../data/conquistas";
+
+export function getStaticPaths() {
+  return conquistas.map(c => ({
+    params: { slug: c.slug },
+    props: { conquista: c },
+  }));
+}
+
+const { conquista } = Astro.props;
+
+// Agora lat e lng são campos separados
+const lat = parseFloat(conquista.lat);
+const lng = parseFloat(conquista.lng);
+
+// Pontos de origem e destino (source e target)
+const sourceLat = conquista.latSource ? parseFloat(conquista.latSource) : null;
+const sourceLng = conquista.lngSource ? parseFloat(conquista.lngSource) : null;
+const targetLat = conquista.latTarget ? parseFloat(conquista.latTarget) : null;
+const targetLng = conquista.lngTarget ? parseFloat(conquista.lngTarget) : null;
+---
+
+<BaseLayout>
+  <section class="px-6 md:px-20 py-6 max-w-5xl flex flex-col md:flex-row items-center gap-8">
+    {conquista.imagem && (
+      <img
+        src={conquista.imagem}
+        alt={conquista.name}
+        class="w-28 h-28 object-cover rounded-xl border border-neutral-800 shadow-lg mb-8 md:mb-0"
+      />
+    )}
+    <div class="flex-1">
+      <h1 class="text-4xl font-serif mb-2">{conquista.shortName} - {conquista.name}</h1>
+      <p class="text-neutral-400 mb-1">
+        {conquista.city} · {conquista.state} · {conquista.country}
+      </p>
+      
+      {conquista.cidadeFim && (
+        <p class="text-neutral-400 mb-1">
+          Destino: {conquista.cidadeFim} / {conquista.estadoFim}
+          {conquista.note} 
+        </p>
+      )}
+      
+      {conquista.comprimentoKm && (
+        <p class="text-neutral-400 mb-1">
+          Comprimento: {conquista.comprimentoKm} km 
+        </p>
+      )}
+
+      {conquista.nota && (
+        <p class="text-neutral-400 mb-1">
+          {conquista.nota}
+        </p>
+      )}
+    </div>
+  </section>
+  <!-- MAPA abaixo dos campos -->
+  <section class="px-6 md:px-20 pb-6 max-w-5xl">
+    <div
+      id="map"
+      class="w-full h-105 rounded-2xl overflow-hidden border border-neutral-800"
+      style="min-height:420px;"
+      data-lat={lat}
+      data-lng={lng}
+      data-title={conquista.name}
+      data-source-lat={sourceLat}
+      data-source-lng={sourceLng}
+      data-target-lat={targetLat}
+      data-target-lng={targetLng}
+    ></div>
+  </section>
+</BaseLayout>
+
+<!-- Leaflet -->
+<link
+  rel="stylesheet"
+  href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+/>
+
+<script
+  src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+  defer
+></script>
+
+<script is:inline>
+  window.addEventListener("DOMContentLoaded", () => {
+    const mapEl = document.getElementById("map");
+    if (mapEl && window.L) {
+      const title = mapEl.dataset.title;
+      // Coordenadas principais
+      const lat       = mapEl.dataset.lat ? parseFloat(mapEl.dataset.lat) : null;
+      const lng       = mapEl.dataset.lng ? parseFloat(mapEl.dataset.lng) : null;
+      const sourceLat = mapEl.dataset.sourceLat ? parseFloat(mapEl.dataset.sourceLat) : null;
+      const sourceLng = mapEl.dataset.sourceLng ? parseFloat(mapEl.dataset.sourceLng) : null;
+      const targetLat = mapEl.dataset.targetLat ? parseFloat(mapEl.dataset.targetLat) : null;
+      const targetLng = mapEl.dataset.targetLng ? parseFloat(mapEl.dataset.targetLng) : null;
+
+      // Cria array de pontos válidos
+      const points = [
+        (lat && lng) ? [lat, lng] : null,
+        ...(sourceLat && sourceLng ? [[sourceLat, sourceLng]] : []),
+        ...(targetLat && targetLng ? [[targetLat, targetLng]] : [])
+      ];
+
+      // Inicializa o mapa
+      const map = L.map("map");
+      if (points.length > 0) {
+        map.fitBounds(points);
+      } else {
+        map.setView([lat, lng], 13);
+      }
+
+      L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+        attribution: "&copy; OpenStreetMap",
+      }).addTo(map);
+
+      // Ponto principal
+      L.marker([lat, lng])
+        .addTo(map)
+        .bindPopup(title)
+        .openPopup();
+
+      if (sourceLat && sourceLng) {
+        L.marker([sourceLat, sourceLng], { icon: L.icon({ iconUrl: "/source-marker.png", iconSize: [24, 24] }) })
+          .addTo(map)
+          .bindPopup("Origem");
+      }
+
+      if (targetLat && targetLng) {
+        L.marker([targetLat, targetLng], { icon: L.icon({ iconUrl: "/target-marker.png", iconSize: [24, 24] }) })
+          .addTo(map)
+          .bindPopup("Destino");
+      }
+
+      // Linha entre origem e destino
+      if (sourceLat && sourceLng && targetLat && targetLng) {
+        fetch(`https://router.project-osrm.org/route/v1/driving/${sourceLng},${sourceLat};${targetLng},${targetLat}?overview=full&geometries=geojson`)
+          .then(res => res.json())
+          .then(data => {
+            if (data.routes && data.routes[0]) {
+              const coords = data.routes[0].geometry.coordinates.map(([lng, lat]) => [lat, lng]);
+              L.polyline(coords, { color: "red", weight: 4 }).addTo(map);
+            } else {
+              L.polyline([[sourceLat, sourceLng], [targetLat, targetLng]], { color: "red", dashArray: "8,8" }).addTo(map);
+            }
+          })
+          .catch(() => {
+            L.polyline([[sourceLat, sourceLng], [targetLat, targetLng]], { color: "red", dashArray: "8,8" }).addTo(map);
+          });
+      }
+    }
+  });
+</script>

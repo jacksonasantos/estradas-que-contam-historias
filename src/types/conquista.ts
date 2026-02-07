@@ -11,6 +11,10 @@ export interface Conquista {
   country: string;
   lat: number;
   lng: number;
+  latSource?: number;
+  lngSource?: number;
+  latTarget?: number;
+  lngTarget?: number;
   cidadeFim?: string;
   estadoFim?: string;
   comprimentoKm?: number;

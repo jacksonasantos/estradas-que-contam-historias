@@ -54,7 +54,7 @@ const targetLng = conquista.lngTarget ? parseFloat(conquista.lngTarget) : null;
             Destino: {conquista.cidadeFim} · {conquista.estadoFim}
           </p>
         )}
-        {conquista.comprimentoKM && !isNaN(Number(conquista.comprimentoKM)) && (
+        {conquista.comprimentoKM > 0 && !isNaN(Number(conquista.comprimentoKM)) && (
           <p class="text-neutral-400">
             Comprimento: {Number(conquista.comprimentoKM) } m
           </p>
@@ -85,91 +85,133 @@ const targetLng = conquista.lngTarget ? parseFloat(conquista.lngTarget) : null;
   </section>
 </BaseLayout>
 
-<!-- Leaflet -->
-<link
-  rel="stylesheet"
-  href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
-/>
-
+<!-- Google Maps API -->
 <script
-  src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+  src={`https://maps.googleapis.com/maps/api/js?key=AIzaSyBfMIuonO9FrmxGdK8M8_953tcy_2o5X5M&callback=initMap`}
+  async
   defer
 ></script>
 
 <script is:inline>
-  window.addEventListener("DOMContentLoaded", () => {
+  window.initMap = function () {
     const mapEl = document.getElementById("map");
-    if (mapEl && window.L) {
-      const title = mapEl.dataset.title;
-      // Coordenadas principais
-      const lat       = mapEl.dataset.lat ? parseFloat(mapEl.dataset.lat) : null;
-      const lng       = mapEl.dataset.lng ? parseFloat(mapEl.dataset.lng) : null;
-      const sourceLat = mapEl.dataset.sourceLat ? parseFloat(mapEl.dataset.sourceLat) : null;
-      const sourceLng = mapEl.dataset.sourceLng ? parseFloat(mapEl.dataset.sourceLng) : null;
-      const targetLat = mapEl.dataset.targetLat ? parseFloat(mapEl.dataset.targetLat) : null;
-      const targetLng = mapEl.dataset.targetLng ? parseFloat(mapEl.dataset.targetLng) : null;
+    if (!mapEl) return;
 
-      // Cria array de pontos válidos
-      const points = [
-        (lat && lng) ? [lat, lng] : null,
-        ...(sourceLat && sourceLng ? [[sourceLat, sourceLng]] : []),
-        ...(targetLat && targetLng ? [[targetLat, targetLng]] : [])
-      ];
+    const lat       = mapEl.dataset.lat ? parseFloat(mapEl.dataset.lat) : null;
+    const lng       = mapEl.dataset.lng ? parseFloat(mapEl.dataset.lng) : null;
+    const sourceLat = mapEl.dataset.sourceLat ? parseFloat(mapEl.dataset.sourceLat) : null;
+    const sourceLng = mapEl.dataset.sourceLng ? parseFloat(mapEl.dataset.sourceLng) : null;
+    const targetLat = mapEl.dataset.targetLat ? parseFloat(mapEl.dataset.targetLat) : null;
+    const targetLng = mapEl.dataset.targetLng ? parseFloat(mapEl.dataset.targetLng) : null;
+    const title     = mapEl.dataset.title;
 
-      // Inicializa o mapa
-      const map = L.map("map");
-      if (points.length > 0) {
-        map.fitBounds(points);
-      } else {
-        map.setView([lat, lng], 13);
-      }
+    // Define pontos válidos para ajustar o bounds
+    const points = [
+      (lat && lng) ? { lat, lng } : null,
+      ...(sourceLat && sourceLng ? [{ lat: sourceLat, lng: sourceLng }] : []),
+      ...(targetLat && targetLng ? [{ lat: targetLat, lng: targetLng }] : [])
+    ].filter(Boolean);
 
-      L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
-        attribution: "&copy; OpenStreetMap",
-      }).addTo(map);
+    const map = new google.maps.Map(mapEl, {
+      center: points[0] || { lat: 0, lng: 0 },
+      zoom: 8,
+      mapTypeId: "roadmap",
+      streetViewControl: false,
+      fullscreenControl: false,
+    });
 
-      // Ponto principal
-      L.marker([lat, lng])
-        .addTo(map)
-        .bindPopup(title)
-        .openPopup();
-
-      // Ponto Origem
-      if (sourceLat && sourceLng) {
-        L.marker([sourceLat, sourceLng], { icon: L.icon({ iconUrl: "/source-marker.png", iconSize: [24, 24] }) })
-          .addTo(map)
-          .bindPopup("Origem");
-      }
-
-      // Ponto Destino
-      if (targetLat && targetLng) {
-        L.marker([targetLat, targetLng], { icon: L.icon({ iconUrl: "/target-marker.png", iconSize: [24, 24] }) })
-          .addTo(map)
-          .bindPopup("Destino");
-      }
-
-      // Linha entre origem e destino
-      if (sourceLat && sourceLng && targetLat && targetLng) {
-        // Inclui o ponto principal entre origem e destino
-        const routePoints = [[sourceLat, sourceLng]];
-        if (lat && lng) routePoints.push([lat, lng]);
-        routePoints.push([targetLat, targetLng]);
-
-        fetch(`https://router.project-osrm.org/route/v1/driving/${sourceLng},${sourceLat};${lng},${lat};${targetLng},${targetLat}?overview=full&geometries=geojson`)
-          .then(res => res.json())
-          .then(data => {
-            if (data.routes && data.routes[0]) {
-              const coords = data.routes[0].geometry.coordinates.map(([lng, lat]) => [lat, lng]);
-              L.polyline(coords, { color: "red", weight: 4 }).addTo(map);
-            } else {
-              L.polyline(routePoints, { color: "blue", dashArray: "8,8" }).addTo(map);
-            }
-          })
-          .catch((err) => {
-            L.polyline(routePoints, { color: "green", dashArray: "8,8" }).addTo(map);
-            console.error("Erro ao calcular rota OSRM:", err);
-          });
-      }
+    // Ajusta o bounds se houver mais de um ponto
+    if (points.length > 1) {
+      const bounds = new google.maps.LatLngBounds();
+      points.forEach(p => bounds.extend(p));
+      map.fitBounds(bounds);
     }
-  });
+
+    // Marcador principal
+    if (lat && lng) {
+      new google.maps.Marker({
+        position: { lat, lng },
+        map,
+        title,
+        label: "P",
+      });
+    }
+
+    // Marcador de origem
+    if (sourceLat && sourceLng) {
+      new google.maps.Marker({
+        position: { lat: sourceLat, lng: sourceLng },
+        map,
+        title: "Origem",
+        icon: {
+          url: "/source-marker.png",
+          scaledSize: new google.maps.Size(32, 32),
+        },
+      });
+    }
+
+    // Marcador de destino
+    if (targetLat && targetLng) {
+      new google.maps.Marker({
+        position: { lat: targetLat, lng: targetLng },
+        map,
+        title: "Destino",
+        icon: {
+          url: "/target-marker.png",
+          scaledSize: new google.maps.Size(32, 32),
+        },
+      });
+    }
+
+    // Traçar rota se origem e destino existirem
+    if (sourceLat && sourceLng && targetLat && targetLng) {
+      const directionsService = new google.maps.DirectionsService();
+      const directionsRenderer = new google.maps.DirectionsRenderer({
+        map,
+        suppressMarkers: true,
+        polylineOptions: { strokeColor: "#d00", strokeWeight: 4 }
+      });
+
+      const waypoints = [];
+      if (lat && lng) {
+        waypoints.push({
+          location: { lat, lng },
+          stopover: true,
+        });
+      }
+
+      directionsService.route(
+        {
+          origin: { lat: sourceLat, lng: sourceLng },
+          destination: { lat: targetLat, lng: targetLng },
+          waypoints,
+          travelMode: google.maps.TravelMode.DRIVING,
+        },
+        (result, status) => {
+          if (status === "OK") {
+            directionsRenderer.setDirections(result);
+          } else {
+            // fallback: desenha linha simples
+            const routePoints = [
+              { lat: sourceLat, lng: sourceLng },
+              ...(lat && lng ? [{ lat, lng }] : []),
+              { lat: targetLat, lng: targetLng }
+            ];
+            new google.maps.Polyline({
+              path: routePoints,
+              map,
+              strokeColor: "#0a0",
+              strokeOpacity: 0.7,
+              strokeWeight: 4,
+              icons: [{
+                icon: { path: "M 0,-1 0,1", strokeOpacity: 1, scale: 4 },
+                offset: "0",
+                repeat: "20px"
+              }]
+            });
+          }
+        }
+      );
+    }
+  };
 </script>

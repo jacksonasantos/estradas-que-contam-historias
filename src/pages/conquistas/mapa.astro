@@ -37,39 +37,40 @@ const pontos = conquistas.map(c => ({
   </section>
 </BaseLayout>
 
-<link
-  rel="stylesheet"
-  href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
-/>
+<!-- Google Maps API -->
 <script
-  src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+  src={`https://maps.googleapis.com/maps/api/js?key=AIzaSyBfMIuonO9FrmxGdK8M8_953tcy_2o5X5M&callback=initMap`}
+  async
   defer
 ></script>
 
 <script is:inline>
-  window.addEventListener("DOMContentLoaded", () => {
+  window.initMap = function () {
     const mapEl = document.getElementById("map");
-    if (!mapEl || !window.L) return;
+    if (!mapEl) return;
 
     const pontos = JSON.parse(mapEl.dataset.pontos);
 
-    const map = L.map("map");
-    // Ajusta o view para mostrar todos os pontos se houver
-    const bounds = [];
+    // Filtra pontos válidos para bounds
+    const bounds = new google.maps.LatLngBounds();
     pontos.forEach(p => {
       if (p.lat && p.lng) {
-        bounds.push([parseFloat(p.lat), parseFloat(p.lng)]);
+        bounds.extend({ lat: parseFloat(p.lat), lng: parseFloat(p.lng) });
       }
     });
-    if (bounds.length > 0) {
-      map.fitBounds(bounds);
-    } else {
-      map.setView([-29.5, -51.5], 6);
-    }
 
-    L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
-      attribution: "&copy; OpenStreetMap",
-    }).addTo(map);
+    const map = new google.maps.Map(mapEl, {
+      center: bounds.isEmpty() ? { lat: -29.5, lng: -51.5 } : bounds.getCenter(),
+      zoom: 6,
+      mapTypeId: "roadmap",
+      streetViewControl: false,
+      fullscreenControl: false,
+    });
+
+    if (!bounds.isEmpty()) map.fitBounds(bounds);
+
+    // Crie uma única InfoWindow para reutilizar
+    const infoWindow = new google.maps.InfoWindow();
 
     pontos.forEach(p => {
       if (!p.lat || !p.lng) return;
@@ -80,61 +81,116 @@ const pontos = conquistas.map(c => ({
       const targetLat = p.targetLat ? parseFloat(p.targetLat) : null;
       const targetLng = p.targetLng ? parseFloat(p.targetLng) : null;
 
-      // Usa a imagem svg como ícone do marcador
+      // Ícone personalizado
       let icon = undefined;
       if (p.image) {
-        icon = L.icon({
-          iconUrl: p.image,
-          iconSize: [24, 24],
-          iconAnchor: [12, 24],
-          popupAnchor: [0, -24],
+        icon = {
+          url: p.image,
+          scaledSize: new google.maps.Size(24, 24),
+          anchor: new google.maps.Point(12, 24),
+        };
+      }
+
+      // Marcador principal
+      const marker = new google.maps.Marker({
+        position: { lat, lng },
+        map,
+        icon,
+        title: p.name,
+      });
+
+      marker.addListener("click", () => {
+        infoWindow.setContent(
+          `<strong style="color:#333333">${p.name}</strong><br/>
+           <a href="/conquistas/${p.slug}" style="color:#666666">ver detalhes</a>`
+        );
+        infoWindow.open(map, marker);
+      });
+
+      // Marcador origem
+      if (sourceLat && sourceLng) {
+        const sourceMarker = new google.maps.Marker({
+          position: { lat: sourceLat, lng: sourceLng },
+          map,
+          title: "Origem",
+          icon: {
+            url: "/source-marker.png",
+            scaledSize: new google.maps.Size(24, 24),
+          },
+        });
+        sourceMarker.addListener("click", () => {
+          infoWindow.setContent(`<span style="color:#222">Origem: ${p.name}</span>`);
+          infoWindow.open(map, sourceMarker);
         });
       }
 
-      // Ponto principal
-      L.marker([lat, lng], icon ? { icon } : undefined)
-        .addTo(map)
-        .bindPopup(
-          `<strong>${p.name}</strong><br/>
-           <a href="/conquistas/${p.slug}">ver detalhes</a>`
-        );
-
-      // Ponto Origem
-      if (sourceLat && sourceLng) {
-        L.marker([sourceLat, sourceLng], { icon: L.icon({ iconUrl: "/source-marker.png", iconSize: [24, 24] }) })
-          .addTo(map)
-          .bindPopup("Origem");
-      }
-
-      // Ponto Destino
+      // Marcador destino
       if (targetLat && targetLng) {
-        L.marker([targetLat, targetLng], { icon: L.icon({ iconUrl: "/target-marker.png", iconSize: [24, 24] }) })
-          .addTo(map)
-          .bindPopup("Destino");
+        const targetMarker = new google.maps.Marker({
+          position: { lat: targetLat, lng: targetLng },
+          map,
+          title: "Destino",
+          icon: {
+            url: "/target-marker.png",
+            scaledSize: new google.maps.Size(24, 24),
+          },
+        });
+        targetMarker.addListener("click", () => {
+          infoWindow.setContent(`<span style="color:#222">Destino: ${p.name}</span>`);
+          infoWindow.open(map, targetMarker);
+        });
       }
 
-      // Linha entre origem e destino
+      // Traçar rota entre origem e destino
       if (sourceLat && sourceLng && targetLat && targetLng) {
-        // Inclui o ponto principal entre origem e destino
-        const routePoints = [[sourceLat, sourceLng]];
-        if (lat && lng) routePoints.push([lat, lng]);
-        routePoints.push([targetLat, targetLng]);
+        const directionsService = new google.maps.DirectionsService();
+        const directionsRenderer = new google.maps.DirectionsRenderer({
+          map,
+          suppressMarkers: true,
+          polylineOptions: { strokeColor: "#d00", strokeWeight: 3 }
+        });
 
-        fetch(`https://router.project-osrm.org/route/v1/driving/${sourceLng},${sourceLat};${lng},${lat};${targetLng},${targetLat}?overview=full&geometries=geojson`)
-          .then(res => res.json())
-          .then(data => {
-            if (data.routes && data.routes[0]) {
-              const coords = data.routes[0].geometry.coordinates.map(([lng, lat]) => [lat, lng]);
-              L.polyline(coords, { color: "red", weight: 4 }).addTo(map);
-            } else {
-              L.polyline(routePoints, { color: "blue", dashArray: "8,8" }).addTo(map);
-            }
-          })
-          .catch((err) => {
-            L.polyline(routePoints, { color: "green", dashArray: "8,8" }).addTo(map);
-            console.error("Erro ao calcular rota OSRM:", err);
+        const waypoints = [];
+        if (lat && lng) {
+          waypoints.push({
+            location: { lat, lng },
+            stopover: true,
           });
+        }
+
+        directionsService.route(
+          {
+            origin: { lat: sourceLat, lng: sourceLng },
+            destination: { lat: targetLat, lng: targetLng },
+            waypoints,
+            travelMode: google.maps.TravelMode.DRIVING,
+          },
+          (result, status) => {
+            if (status === "OK") {
+              directionsRenderer.setDirections(result);
+            } else {
+              // fallback: desenha linha simples
+              const routePoints = [
+                { lat: sourceLat, lng: sourceLng },
+                ...(lat && lng ? [{ lat, lng }] : []),
+                { lat: targetLat, lng: targetLng }
+              ];
+              new google.maps.Polyline({
+                path: routePoints,
+                map,
+                strokeColor: "#0a0",
+                strokeOpacity: 0.7,
+                strokeWeight: 4,
+                icons: [{
+                  icon: { path: "M 0,-1 0,1", strokeOpacity: 1, scale: 3 },
+                  offset: "0",
+                  repeat: "20px"
+                }]
+              });
+            }
+          }
+        );
       }
     });
-  });
+  };
 </script>

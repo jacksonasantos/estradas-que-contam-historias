@@ -39,7 +39,7 @@ const pontos = conquistas.map(c => ({
 
 <!-- Google Maps API -->
 <script
-  src={`https://maps.googleapis.com/maps/api/js?key=AIzaSyBfMIuonO9FrmxGdK8M8_953tcy_2o5X5M&callback=initMap`}
+  src={`https://maps.googleapis.com/maps/api/js?key=${import.meta.env.PUBLIC_GOOGLE_MAPS_API_KEY}&callback=initMap`}
   async
   defer
 ></script>

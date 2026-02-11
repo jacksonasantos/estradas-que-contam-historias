@@ -1,7 +1,7 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
 import conquistas from "../data/conquistas";
-import ConquistaCard from "../components/ConquistaCard.astro";
+import CardConquista from "../components/CardConquista.astro";
 import { CONQUISTAS_TIPO } from "../data/conquistas_tipo";
 
 // Categorias únicas
@@ -26,77 +26,78 @@ const totalConquistas = conquistas.length;
 ---
 
 <BaseLayout title="Conquistas">
-  <div class="relative">
-    <div class="relative z-10">
-      <!-- Cabeçalho -->
-      <section class="px-6 md:px-20 py-12 max-w-5xl">
-        <h1 class="text-5xl font-serif mb-4">Conquistas</h1>
-        <p class="text-neutral-400 text-lg">
-          Estradas, serras e lugares que marcam jornadas memoráveis.
-        </p>
-      </section>
+  <section class="px-6 md:px-20 py-12 max-w-9xl flex items-center justify-between">
+    <div>
+      <h1 class="text-5xl font-serif mb-4">Conquistas</h1>
+      <p class="text-neutral-400 text-lg">
+        Estradas, serras e lugares que marcam jornadas memoráveis.
+      </p>
+    </div>
+    <a
+      href="/conquistas/mapa"
+      class="flex items-center gap-2 border border-neutral-700 px-4 py-2 rounded-full hover:border-neutral-400 hover:text-white transition text-base" 
+    >
+      🗺️<span class="hidden md:inline">Ver mapa</span>
+    </a>
+  </section>
 
-      <!-- Filtros Tipo -->
-      <section class="px-6 md:px-20 pb-1 ">
-        <div id="filtros-conquistas" class="flex gap-4 overflow-x-auto scrollbar-hide py-2">
-          <!-- Todos -->
-          <button class="filter-btn active" data-filter="Todos">
-            <span>Todos</span>
-            <span class="count">{totalConquistas}</span>
-          </button>
-          
-          <!-- Categorias -->
-          {contagem.map(tipo => (
-            <button class="filter-btn" data-filter={tipo.id}>
-              {tipo.icon ? (
-                <img src={tipo.icon} alt={tipo.label} width="16" height="16" class="inline-block mr-1 align-middle"/>
-              ) : null}
-              <span>{tipo.label}</span>
-              <span class="count">{tipo.total}</span>
-            </button>
-          ))}
-        </div>
-      </section>
+  <!-- Filtros Tipo -->
+  <section class="px-6 md:px-20 pb-1 ">
+    <div id="filtros-conquistas" class="flex flex-wrap gap-4 gap-y-1 overflow-x-auto scrollbar-hide py-2">
+      <!-- Todos -->
+      <button class="filter-btn active" data-filter="Todos">
+        <span>Todos</span>
+        <span class="count">{totalConquistas}</span>
+      </button>
+      
+      <!-- Categorias -->
+      {contagem.map(tipo => (
+        <button class="filter-btn" data-filter={tipo.id}>
+          {tipo.icon ? (
+            <img src={tipo.icon} alt={tipo.label} width="16" height="16" class="inline-block mr-1 align-middle"/>
+          ) : null}
+          <span>{tipo.label}</span>
+          <span class="count">{tipo.total}</span>
+        </button>
+      ))}
+    </div>
+  </section>
 
-      <!-- Filtros Estado -->
-      <section class="px-6 md:px-20 pb-6 ">
-        <div id="filtros-conquistas-estado" class="flex gap-4 overflow-x-auto scrollbar-hide py-2">
-          <!-- Todos -->
-          <button class="filter-btn active" data-filter="Todos">
-            <span>Todos</span>
-            <span class="count">{totalConquistas}</span>
-          </button>
-          
-          <!-- Categorias -->
-          {contagemEstado.map(estado => (
-            <button class="filter-btn" data-filter={estado.id}>
-              <span>{estado.label}</span>
-              <span class="count">{estado.total}</span>
-            </button>
-          ))}
-        </div>
-      </section>
+  <!-- Filtros Estado -->
+  <section class="px-6 md:px-20 pb-6 ">
+    <div id="filtros-conquistas-estado" class="flex flex-wrap gap-4 gap-y-1 overflow-x-auto scrollbar-hide py-2">
+      <!-- Todos -->
+      <button class="filter-btn active" data-filter="Todos">
+        <span>Todos</span>
+        <span class="count">{totalConquistas}</span>
+      </button>
+      
+      <!-- Categorias -->
+      {contagemEstado.map(estado => (
+        <button class="filter-btn" data-filter={estado.id}>
+          <span>{estado.label}</span>
+          <span class="count">{estado.total}</span>
+        </button>
+      ))}
+    </div>
+  </section>
 
-      <!-- Lista -->
-      <section class="px-6 md:px-20 pb-16">
-        <ul id="conquistas-lista" class="grid grid-cols-1 md:grid-cols-3 gap-4 max-w-9xl">
-          {conquistas.map(c => (
-            <li data-tipo={c.tipo} data-estado={c.state}>
-              <ConquistaCard c={c} />
-            </li>
-          ))}  
-        </ul>
-      </section>
-    </div> 
-  </div>  
+  <!-- Lista -->
+  <section class="px-6 md:px-20 pb-16">
+    <ul id="conquistas-lista" class="grid grid-cols-1 md:grid-cols-3 gap-4 max-w-9xl">
+      {conquistas.map(c => (
+        <li data-tipo={c.tipo} data-estado={c.state}>
+          <CardConquista c={c} />
+        </li>
+      ))}  
+    </ul>
+  </section>
 </BaseLayout>
 
 <!-- JS mínimo -->
 <script is:inline>
   document.addEventListener("DOMContentLoaded", () => {
-    // Filtro por tipo
     const tipoButtons = document.querySelectorAll("#filtros-conquistas .filter-btn");
-    // Filtro por estado
     const estadoButtons = document.querySelectorAll("#filtros-conquistas-estado .filter-btn");
     const items = document.querySelectorAll("#conquistas-lista li");
 
@@ -108,8 +109,8 @@ const totalConquistas = conquistas.length;
         tipoButtons.forEach(b => b.classList.remove("active"));
         btn.classList.add("active");
         tipoAtivo = btn.getAttribute("data-filter");
-
         filtrar();
+        atualizarContadores();
       });
     });
 
@@ -118,8 +119,8 @@ const totalConquistas = conquistas.length;
         estadoButtons.forEach(b => b.classList.remove("active"));
         btn.classList.add("active");
         estadoAtivo = btn.getAttribute("data-filter");
-
         filtrar();
+        atualizarContadores();
       });
     });
 
@@ -132,5 +133,42 @@ const totalConquistas = conquistas.length;
         item.style.display = tipoOk && estadoOk ? "block" : "none";
       });
     }
+
+    function atualizarContadores() {
+      // Atualiza contadores dos tipos
+      tipoButtons.forEach(btn => {
+        const tipo = btn.getAttribute("data-filter");
+        let count = 0;
+        items.forEach(item => {
+          const itemTipo = item.getAttribute("data-tipo") || "Sem tipo";
+          const itemEstado = item.getAttribute("data-estado") || "Sem estado";
+          const estadoOk = estadoAtivo === "Todos" || itemEstado === estadoAtivo;
+          if ((tipo === "Todos" || itemTipo === tipo) && estadoOk) {
+            count++;
+          }
+        });
+        const span = btn.querySelector(".count");
+        if (span) span.textContent = count;
+      });
+
+      // Atualiza contadores dos estados
+      estadoButtons.forEach(btn => {
+        const estado = btn.getAttribute("data-filter");
+        let count = 0;
+        items.forEach(item => {
+          const itemTipo = item.getAttribute("data-tipo") || "Sem tipo";
+          const itemEstado = item.getAttribute("data-estado") || "Sem estado";
+          const tipoOk = tipoAtivo === "Todos" || itemTipo === tipoAtivo;
+          if ((estado === "Todos" || itemEstado === estado) && tipoOk) {
+            count++;
+          }
+        });
+        const span = btn.querySelector(".count");
+        if (span) span.textContent = count;
+      });
+    }
+
+    // Inicializa contadores corretos ao carregar
+    atualizarContadores();
   });
 </script>

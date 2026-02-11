@@ -23,42 +23,53 @@ const targetLng = conquista.lngTarget ? parseFloat(conquista.lngTarget) : null;
 ---
 
 <BaseLayout>
-  <section class="px-6 md:px-20 py-6 max-w-5xl flex flex-col md:flex-row items-center gap-8">
+  <section class="px-6 md:px-20 py-6 max-w-9xl flex flex-col md:flex-row items-center gap-8">
+
     {conquista.imagem && (
       <img
         src={conquista.imagem}
         alt={conquista.name}
-        class="w-28 h-28 object-cover rounded-xl border border-neutral-800 shadow-lg mb-8 md:mb-0"
+        class="w-24 h-24 min-w-0 min-h-0 max-w-24 max-h-24 object-contain rounded-lg shrink-0 bg-neutral-900"
+        style="aspect-ratio: 1 / 1;"
       />
-    )}
+    )} 
     <div class="flex-1">
-      <h1 class="text-4xl font-serif mb-2">{conquista.shortName} - {conquista.name}</h1>
-      <p class="text-neutral-400 mb-1">
-        {conquista.city} · {conquista.state} · {conquista.country}
-      </p>
-      
-      {conquista.cidadeFim && (
-        <p class="text-neutral-400 mb-1">
-          Destino: {conquista.cidadeFim} / {conquista.estadoFim}
-          {conquista.note} 
-        </p>
-      )}
-      
-      {conquista.comprimentoKm && (
-        <p class="text-neutral-400 mb-1">
-          Comprimento: {conquista.comprimentoKm} km 
-        </p>
-      )}
-
-      {conquista.nota && (
-        <p class="text-neutral-400 mb-1">
-          {conquista.nota}
-        </p>
-      )}
+      <div class="flex-1">
+        <div class="flex items-center justify-between">
+        <h1 class="text-4xl font-serif mb-2">{conquista.shortName} - {conquista.name}</h1>
+        <a
+          href="/conquistas"
+          class="flex items-center gap-2 border border-neutral-700 px-4 py-2 rounded-full hover:border-neutral-400 hover:text-white transition text-base" 
+        >
+          <span class="hidden md:inline">← Voltar para conquistas</span>
+        </a>
+      </div>
+        <p class="text-neutral-400">
+          {conquista.cidadeFim ? "Origem" : "Localização"}: {conquista.city} · {conquista.state}, {conquista.country}
+        </p> 
+      </div>
+      <div class="flex-1">
+        {conquista.cidadeFim && (
+          <p class="text-neutral-400">
+            Destino: {conquista.cidadeFim} · {conquista.estadoFim}
+          </p>
+        )}
+        {conquista.comprimentoKM && !isNaN(Number(conquista.comprimentoKM)) && (
+          <p class="text-neutral-400">
+            Comprimento: {Number(conquista.comprimentoKM) } m
+          </p>
+        )}
+     
+        {conquista.nota && (
+          <p class="text-neutral-400">
+            {conquista.nota}
+          </p>
+        )}
+      </div>
     </div>
   </section>
   <!-- MAPA abaixo dos campos -->
-  <section class="px-6 md:px-20 pb-6 max-w-5xl">
+  <section class="px-6 md:px-20 pb-6 max-w-9xl">
     <div
       id="map"
       class="w-full h-105 rounded-2xl overflow-hidden border border-neutral-800"
@@ -123,12 +134,14 @@ const targetLng = conquista.lngTarget ? parseFloat(conquista.lngTarget) : null;
         .bindPopup(title)
         .openPopup();
 
+      // Ponto Origem
       if (sourceLat && sourceLng) {
         L.marker([sourceLat, sourceLng], { icon: L.icon({ iconUrl: "/source-marker.png", iconSize: [24, 24] }) })
           .addTo(map)
           .bindPopup("Origem");
       }
 
+      // Ponto Destino
       if (targetLat && targetLng) {
         L.marker([targetLat, targetLng], { icon: L.icon({ iconUrl: "/target-marker.png", iconSize: [24, 24] }) })
           .addTo(map)
@@ -137,18 +150,24 @@ const targetLng = conquista.lngTarget ? parseFloat(conquista.lngTarget) : null;
 
       // Linha entre origem e destino
       if (sourceLat && sourceLng && targetLat && targetLng) {
-        fetch(`https://router.project-osrm.org/route/v1/driving/${sourceLng},${sourceLat};${targetLng},${targetLat}?overview=full&geometries=geojson`)
+        // Inclui o ponto principal entre origem e destino
+        const routePoints = [[sourceLat, sourceLng]];
+        if (lat && lng) routePoints.push([lat, lng]);
+        routePoints.push([targetLat, targetLng]);
+
+        fetch(`https://router.project-osrm.org/route/v1/driving/${sourceLng},${sourceLat};${lng},${lat};${targetLng},${targetLat}?overview=full&geometries=geojson`)
           .then(res => res.json())
           .then(data => {
             if (data.routes && data.routes[0]) {
               const coords = data.routes[0].geometry.coordinates.map(([lng, lat]) => [lat, lng]);
               L.polyline(coords, { color: "red", weight: 4 }).addTo(map);
             } else {
-              L.polyline([[sourceLat, sourceLng], [targetLat, targetLng]], { color: "red", dashArray: "8,8" }).addTo(map);
+              L.polyline(routePoints, { color: "blue", dashArray: "8,8" }).addTo(map);
             }
           })
-          .catch(() => {
-            L.polyline([[sourceLat, sourceLng], [targetLat, targetLng]], { color: "red", dashArray: "8,8" }).addTo(map);
+          .catch((err) => {
+            L.polyline(routePoints, { color: "green", dashArray: "8,8" }).addTo(map);
+            console.error("Erro ao calcular rota OSRM:", err);
           });
       }
     }

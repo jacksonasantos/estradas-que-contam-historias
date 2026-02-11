@@ -23,11 +23,12 @@ if (!roteiro) {
   <BaseLayout title={`${roteiro.titulo} | Estradas que Contam Histórias`}>
 
     <!-- HERO -->
-    <section class="relative h-[70vh] flex items-center justify-start">
+    <section class="relative h-[60vh] bg-neutral-200/80 flex items-center justify-start">
       <img
         src={roteiro.imagem}
         alt={roteiro.titulo}
-        class="absolute inset-0 w-full h-full object-cover"
+        class="absolute inset-0 w-full h-full object-contain z-1"
+        loading="lazy"
       />
 
       <div class="absolute inset-0 bg-linear-to-t from-black/80 via-black/30 to-transparent"></div>
@@ -40,7 +41,7 @@ if (!roteiro) {
           {categoria?.label}
         </span>
         
-        <h1 class="text-4xl md:text-5xl font-serif text-white mb-4 text-center">
+        <h1 class="text-4xl md:text-4xl font-serif text-white mb-4 text-center">
           {roteiro.titulo}
         </h1>
 
@@ -91,7 +92,7 @@ if (!roteiro) {
       <ol class="space-y-4 max-w-xl">
         {roteiro.caminho.map((ponto, index) => (
           <li class="flex gap-4 items-start">
-            <span class="text-neutral-600 font-mono">
+            <span class="text-neutral-400 font-mono">
               {index + 1}
             </span>
             <span class="text-neutral-300">
@@ -108,7 +109,7 @@ if (!roteiro) {
 
       <ul class="grid md:grid-cols-2 gap-6">
         {roteiro.experiencia.map(item => (
-          <li class="border border-neutral-800 rounded-xl p-6 text-neutral-300">
+          <li class="border border-neutral-700 rounded-xl p-6 text-neutral-300">
             {item}
           </li>
         ))}

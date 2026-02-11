@@ -10,12 +10,14 @@ const iconPath = categoria?.icon;
    class="group border bg-neutral-800/40 border-neutral-700 hover:border-neutral-400 transition rounded-lg p-2 flex flex-row items-center justify-between"
 >
   <div class="shrink-0 w-38 h-38 mr-4 flex items-center justify-center">
-    <img
-      src={roteiro.imagem}
-      alt={roteiro.titulo}
-      class="w-full h-full object-cover rounded-lg"
-      loading="lazy"
-    />
+    {roteiro.imagem && (
+      <img
+        src={roteiro.imagem}
+        alt={roteiro.titulo}
+        class="w-full h-full object-contain rounded-lg"
+        loading="lazy"
+      />
+    )}
   </div>
   <div class="flex-1 flex flex-col justify-between">
     <div>
@@ -29,14 +31,16 @@ const iconPath = categoria?.icon;
       </p>
     </div>
     <div class="text-sm text-neutral-300 space-y-1">
-      {roteiro.regiao}
-      <div class="flex items-center justify-between">
-        <span>{roteiro.distancia} · {roteiro.duracao}</span>
-        <span class="flex items-center ml-2">
-          <img src={iconPath} alt={categoria?.label} width="16" height="16" class="inline-block mr-1 align-middle" style="filter: invert(80%) sepia(0%) saturate(0%) hue-rotate(0deg) brightness(90%) contrast(90%);" />
-          {categoria && categoria.label}
-        </span>
-      </div>
+      <span class="flex items-center">
+        <img src={iconPath} alt={categoria?.label} width="16" height="16" class="inline-block mr-1 align-middle" style="filter: invert(80%) sepia(0%) saturate(0%) hue-rotate(0deg) brightness(90%) contrast(90%);" />
+        {categoria && categoria.label}
+      </span>
+      <span class="flex items-center">
+        {roteiro.regiao}
+      </span>
+      <span>
+        {roteiro.distancia} · {roteiro.duracao}
+      </span>
     </div>
   </div>
 </a>

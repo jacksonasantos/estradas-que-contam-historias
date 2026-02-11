@@ -1,0 +1,86 @@
+INSERT INTO public.itinerary (itinerary_source,itinerary_target,trip_id,travel_time,travel_distance) VALUES
+	 ('São Lourenço','Posadas (AR)',42,0,0),
+	 ('Posadas (AR)','San Ignacio (AR)',42,0,0),
+	 ('San Ignacio (AR)','Loreto (AR)',42,0,0),
+	 ('Definido pelo viajante','',56,0,0),
+	 ('Paradas espontâneas','',56,0,0),
+	 ('Porto Alegre','Caxias do Sul',40,0,0),
+	 ('Caxias do Sul','Flores da Cunha',40,0,0),
+	 ('Flores da Cunha','Antônio Prado',40,0,0),
+	 ('Antônio Prado','Bento Gonçalves',40,0,0),
+	 ('Bento Gonçalves','Garibaldi',40,0,0);
+INSERT INTO public.itinerary (itinerary_source,itinerary_target,trip_id,travel_time,travel_distance) VALUES
+	 ('Garibaldi','Porto Alegre',40,0,0),
+	 ('Porto Alegre','Guaíba',41,0,0),
+	 ('Guaíba','Piratini',41,0,0),
+	 ('Piratini','Pelotas',41,0,0),
+	 ('Pelotas','Porto Alegre',41,0,0),
+	 ('Porto Alegre','Santo Ângelo',42,0,0),
+	 ('Santo Ângelo','São Miguel das Missões',42,0,0),
+	 ('São Miguel das Missões','São João Batista',42,0,0),
+	 ('São João Batista','São Lourenço',42,0,0),
+	 ('Porto Alegre','São Leopoldo',44,0,0);
+INSERT INTO public.itinerary (itinerary_source,itinerary_target,trip_id,travel_time,travel_distance) VALUES
+	 ('São Leopoldo','Novo Hamburgo',44,0,0),
+	 ('Retornos alternativos','',56,0,0),
+	 ('Porto Alegre','Bento Gonçalves',57,0,0),
+	 ('Bento Gonçalves','Monte Belo do Sul',57,0,0),
+	 ('Monte Belo do Sul','Santa Tereza',57,0,0),
+	 ('Santa Tereza','Porto Alegre',57,0,0),
+	 ('Porto Alegre','Caxias do Sul',58,0,0),
+	 ('Caxias do Sul','Farroupilha',58,0,0),
+	 ('Farroupilha','Bento Gonçalves',58,0,0),
+	 ('Bento Gonçalves','Porto Alegre',58,0,0);
+INSERT INTO public.itinerary (itinerary_source,itinerary_target,trip_id,travel_time,travel_distance) VALUES
+	 ('Porto Alegre','Criciúma',59,0,0),
+	 ('Criciúma','Porto Alegre',59,0,0),
+	 ('Novo Hamburgo','Ivoti',44,0,0),
+	 ('Porto Alegre','Bagé',45,0,0),
+	 ('Bagé','Dom Pedrito',45,0,0),
+	 ('Dom Pedrito','Santana do Livramento',45,0,0),
+	 ('Santana do Livramento','Porto Alegre',45,0,0),
+	 ('Porto Alegre','Osório (RS) ',46,0,0),
+	 ('Osório (RS)','Laguna (SC)',46,0,0),
+	 ('Laguna (SC)','Mostardas',46,0,0);
+INSERT INTO public.itinerary (itinerary_source,itinerary_target,trip_id,travel_time,travel_distance) VALUES
+	 ('Mostardas','Porto Alegre',46,0,0),
+	 ('Porto Alegre','Nova Petrópolis',47,0,0),
+	 ('Nova Petrópolis','Gramado',47,0,0),
+	 ('Gramado','Canela',47,0,0),
+	 ('Canela','São Fransciso de Paula',47,0,0),
+	 ('São Francisco de Paula','Porto Alegre',47,0,0),
+	 ('Porto Alegre','Cambará do Sul',48,0,0),
+	 ('Cambará do Sul','Cânion Itaimbezinho',48,0,0),
+	 ('Cambará do Sul','Cânion Fortaleza',48,0,0),
+	 ('Cambará do Sul','Porto Alegre',48,0,0);
+INSERT INTO public.itinerary (itinerary_source,itinerary_target,trip_id,travel_time,travel_distance) VALUES
+	 ('Porto Alegre','Capão da Canoa',49,0,0),
+	 ('Capão da Canoa','Torres',49,0,0),
+	 ('Torres','Porto Alegre',49,0,0),
+	 ('Porto Alegre','Bagé',50,0,0),
+	 ('Bagé','Aceguá',50,0,0),
+	 ('Aceguá','Santana do Livramento',50,0,0),
+	 ('Santana do Livramento','Porto Alegre',50,0,0),
+	 ('Porto Alegre','Lajeado',51,0,0),
+	 ('Lajeado','Estrela',51,0,0),
+	 ('Estrela','Teutônia',51,0,0);
+INSERT INTO public.itinerary (itinerary_source,itinerary_target,trip_id,travel_time,travel_distance) VALUES
+	 ('Teutônia','Porto Alegre',51,0,0),
+	 ('Porto Alegre','Bento Gonçalves',52,0,0),
+	 ('Bento Gonçalves','Monte Belo do Sul',52,0,0),
+	 ('Monte Belo do Sul','Garibaldi',52,0,0),
+	 ('Garibaldi','Porto Alegre',52,0,0),
+	 ('Ivoti','Porto Alegre',44,0,0),
+	 ('Porto Alegre','Canoas',53,0,0),
+	 ('Canoas','São Leopoldo',53,0,0),
+	 ('São Leopoldo','Porto Alegre',53,0,0),
+	 ('Porto Alegre','Gramado',54,0,0);
+INSERT INTO public.itinerary (itinerary_source,itinerary_target,trip_id,travel_time,travel_distance) VALUES
+	 ('Gramado','Canela',54,0,0),
+	 ('Canela','São José dos Ausentes',54,0,0),
+	 ('São José dos Ausentes','Porto Alegre',54,0,0),
+	 ('Porto Alegre','Cambará do Sul',55,0,0),
+	 ('Cambará do Sul','Serra do Faxinal',55,0,0),
+	 ('Serra do Faxinal','Praia Grande (SC)',55,0,0),
+	 ('Praia Grande (SC)','Porto Alegre',55,0,0),
+	 ('Loreto (AR)','Porto Alegre',42,0,0);

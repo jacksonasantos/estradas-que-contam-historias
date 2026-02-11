@@ -1,5 +1,5 @@
 ---
-import RoteiroCard from "./RoteiroCard.astro";
+import CardRoteiro from "./CardRoteiro.astro";
 import listaRoteiros from "../data/roteiros";
 ---
 
@@ -10,7 +10,7 @@ import listaRoteiros from "../data/roteiros";
     </h2>
     <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
       {listaRoteiros.slice(0, 3).map((roteiro) => (
-        <RoteiroCard roteiro={roteiro} />
+        <CardRoteiro roteiro={roteiro} />
       ))}
     </div>
 

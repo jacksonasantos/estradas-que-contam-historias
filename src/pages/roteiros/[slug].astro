@@ -23,12 +23,14 @@ if (!roteiro) {
   <BaseLayout title={`${roteiro.titulo} | Estradas que Contam Histórias`}>
 
     <!-- HERO -->
-    <section class="relative h-[60vh] bg-neutral-200/80 flex items-center justify-start">
+    <section id="hero-section" class="relative h-[60vh] flex items-center justify-start" style="background-color: #f3f3f3;">
       <img
         src={roteiro.imagem}
         alt={roteiro.titulo}
         class="absolute inset-0 w-full h-full object-contain z-1"
         loading="lazy"
+        id="hero-img"
+        crossorigin="anonymous"
       />
 
       <div class="absolute inset-0 bg-linear-to-t from-black/80 via-black/30 to-transparent"></div>
@@ -50,6 +52,86 @@ if (!roteiro) {
         </p>
       </div>
     </section>
+
+    <script is:inline>
+    window.addEventListener("load", () => {
+      const img = document.getElementById("hero-img");
+      const section = document.getElementById("hero-section");
+
+      if (!img || !section) return;
+
+      function getAverageColor(image) {
+        const canvas = document.createElement("canvas");
+        const ctx = canvas.getContext("2d");
+
+        canvas.width = image.naturalWidth;
+        canvas.height = image.naturalHeight;
+
+        ctx.drawImage(image, 0, 0);
+
+        const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+        const data = imageData.data;
+
+        let r = 0, g = 0, b = 0;
+        let count = 0;
+
+        // Amostragem: pega 1 pixel a cada 20 para performance
+        for (let i = 0; i < data.length; i += 80) {
+          r += data[i];
+          g += data[i + 1];
+          b += data[i + 2];
+          count++;
+        }
+
+        return [
+          Math.floor(r / count),
+          Math.floor(g / count),
+          Math.floor(b / count)
+        ];
+      }
+
+      function darken(color, amount = 60) {
+        return color.map(c => Math.max(c - amount, 0));
+      }
+
+      function rgb(color, alpha = 1) {
+        return `rgba(${color[0]}, ${color[1]}, ${color[2]}, ${alpha})`;
+      }
+
+      function applyCinematicBackground() {
+        try {
+          const avgColor = getAverageColor(img);
+          const darkPrimary = darken(avgColor, 40);
+          const darkSecondary = darken(avgColor, 80);
+
+          const gradient = `
+            radial-gradient(
+              circle at 30% 30%,
+              ${rgb(darkPrimary, 1)} 0%,
+              transparent 90%
+            ),
+            linear-gradient(
+              to bottom,
+              ${rgb(darkPrimary, 1)} 0%,
+              ${rgb(darkSecondary, 1)} 100%
+            )
+          `;
+
+          section.style.background = gradient;
+
+        } catch (error) {
+          console.warn("Canvas error:", error);
+          section.style.background = "#111";
+        }
+      }
+
+      if (img.complete) {
+        applyCinematicBackground();
+      } else {
+        img.addEventListener("load", applyCinematicBackground);
+      }
+    });
+    </script>
 
     <!-- INFO RÁPIDA -->
     <section class="px-6 md:px-20 py-6 bg-neutral-950 border-t border-neutral-800">
@@ -78,46 +160,57 @@ if (!roteiro) {
     </section>
 
     <!-- HISTÓRIA -->
-    <section class="px-6 md:px-20 py-24 max-w-3xl">
+    <section class="px-6 md:px-20 py-12 max-w-4xl">
       <h2 class="section-title">A história da estrada</h2>
       <p class="section-text whitespace-pre-line">
         {roteiro.historia}
       </p>
     </section>
 
-    <!-- O CAMINHO -->
-    <section class="px-6 md:px-20 py-20 bg-neutral-950 border-t border-neutral-800">
-      <h2 class="section-title mb-8">O caminho</h2>
-
-      <ol class="space-y-4 max-w-xl">
-        {roteiro.caminho.map((ponto, index) => (
-          <li class="flex gap-4 items-start">
-            <span class="text-neutral-400 font-mono">
-              {index + 1}
-            </span>
-            <span class="text-neutral-300">
-              {ponto}
-            </span>
-          </li>
-        ))}
-      </ol>
-    </section>
-
-    <!-- EXPERIÊNCIA -->
-    <section class="px-6 md:px-20 py-20 max-w-4xl">
-      <h2 class="section-title mb-8">O que esperar da viagem</h2>
-
-      <ul class="grid md:grid-cols-2 gap-6">
-        {roteiro.experiencia.map(item => (
-          <li class="border border-neutral-700 rounded-xl p-6 text-neutral-300">
-            {item}
-          </li>
-        ))}
-      </ul>
+    <!-- O CAMINHO + EXPERIÊNCIA -->
+    <section class="px-6 md:px-20 py-12 border-t border-neutral-800 bg-neutral-950">
+      <div class="grid md:grid-cols-2 gap-12 max-w-6xl mx-auto">
+        <div>
+          <h2 class="section-title mb-8">O caminho</h2>
+          <ol class="space-y-4 max-w-xl">
+            {roteiro.caminho.map((ponto, index) => {
+              // Divide o ponto em texto e mensagem extra (após @)
+              const [main, extra] = ponto.split("@");
+              return (
+                <li class="flex flex-col gap-1 items-start">
+                  <div class="flex gap-4 items-start">
+                    <span class="text-neutral-400 font-mono">
+                      {index + 1}
+                    </span>
+                    <span class="text-neutral-300">
+                      {main.trim()}
+                    </span>
+                  </div>
+                  {extra && (
+                    <span class="ml-8 text-sm text-neutral-400 italic">
+                      {extra.trim()}
+                    </span>
+                  )}
+                </li>
+              );
+            })}
+          </ol>
+        </div>
+        <div>
+          <h2 class="section-title mb-8">O que esperar da viagem</h2>
+          <ul class="grid md:grid-cols-2 gap-4">
+            {roteiro.experiencia.map(item => (
+              <li class="border border-neutral-700 rounded-xl p-6 text-neutral-300">
+                {item}
+              </li>
+            ))}
+          </ul>
+        </div>
+      </div>
     </section>
 
     <!-- CTA -->
-    <section class="px-6 md:px-20 py-24 bg-neutral-950 border-t border-neutral-800 text-center">
+    <section class="px-6 md:px-20 py-12 bg-neutral-950 border-t border-neutral-800 text-center">
       <h2 class="text-3xl font-serif mb-6">
         Pronto para viver essa estrada?
       </h2>

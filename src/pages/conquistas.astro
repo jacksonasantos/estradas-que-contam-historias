@@ -5,14 +5,14 @@ import CardConquista from "../components/CardConquista.astro";
 import { CONQUISTAS_TIPO } from "../data/conquistas_tipo";
 
 // Categorias únicas
-const tipos = [...new Set(conquistas.map(c => c.tipo))];
+const tipos = [...new Set(conquistas.map(c => c.type))];
 
 // Contagem por tipo
-const contagem = tipos.map(tipo => ({
-  id: tipo,
-  label: CONQUISTAS_TIPO.find(t => t.id === tipo)?.label ?? tipo,
-  icon: CONQUISTAS_TIPO.find(t => t.id === tipo)?.icon ?? "",
-  total: conquistas.filter(c => c.tipo === tipo).length
+const contagem = tipos.map(type => ({
+  id: type,
+  label: CONQUISTAS_TIPO.find(t => t.id === type)?.label ?? type,
+  icon: CONQUISTAS_TIPO.find(t => t.id === type)?.icon ?? "",
+  total: conquistas.filter(c => c.type === type).length
 }));
 
 // Contagem por estado
@@ -86,7 +86,7 @@ const totalConquistas = conquistas.length;
   <section class="px-6 md:px-20 pb-16">
     <ul id="conquistas-lista" class="grid grid-cols-1 md:grid-cols-3 gap-4 max-w-9xl">
       {conquistas.map(c => (
-        <li data-tipo={c.tipo} data-estado={c.state}>
+        <li data-tipo={c.type} data-estado={c.state}>
           <CardConquista c={c} />
         </li>
       ))}  

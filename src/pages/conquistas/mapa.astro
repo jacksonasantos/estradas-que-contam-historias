@@ -8,7 +8,7 @@ const pontos = conquistas.map(c => ({
   type: c.type_achievement,
   lat: c.lat,
   lng: c.lng,
-  image: c.imagem,
+  image: c.image ?? null,
   sourceLat: c.latSource ?? null,
   sourceLng: c.lngSource ?? null,
   targetLat: c.latTarget ?? null,
@@ -114,7 +114,7 @@ const pontos = conquistas.map(c => ({
           map,
           title: "Origem",
           icon: {
-            url: "/source-marker.png",
+            url: "/src/assets/source-marker.png",
             scaledSize: new google.maps.Size(24, 24),
           },
         });
@@ -131,7 +131,7 @@ const pontos = conquistas.map(c => ({
           map,
           title: "Destino",
           icon: {
-            url: "/target-marker.png",
+            url: "/src/assets/target-marker.png",
             scaledSize: new google.maps.Size(24, 24),
           },
         });

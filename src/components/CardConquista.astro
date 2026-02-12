@@ -2,16 +2,16 @@
 import { CONQUISTAS_TIPO } from "../data/conquistas_tipo";
 
 const { c } = Astro.props;
-const tipo = CONQUISTAS_TIPO.find(t => t.id === c.tipo);
+const tipo = CONQUISTAS_TIPO.find(t => t.id === c.type);
 ---
 
 <a href={`/conquistas/${c.slug}`}
     class="group border bg-neutral-800/40 border-neutral-700 hover:border-neutral-400 transition rounded-lg p-2 flex flex-row items-center justify-between"
 >
   <div class="shrink-0 w-24 h-24 mr-4 flex items-center justify-center">
-    {c.imagem && (
+    {c.image && (
       <img
-        src={c.imagem}
+        src={c.image}
         alt={c.name}
         class="w-24 h-24 min-w-0 min-h-0 max-w-24 max-h-24 object-contain rounded-lg shrink-0 bg-neutral-900"
         style="aspect-ratio: 1 / 1;"
@@ -43,7 +43,7 @@ const tipo = CONQUISTAS_TIPO.find(t => t.id === c.tipo);
         {c.city}, {c.state} • {c.country}
     </p>
     <p class="text-sm text-neutral-500 mt-1">
-        {c.cidadeFim} {c.cidadeFim ? "," : ""} {c.estadoFim}
+        {c.cityTarget} {c.cityTarget ? "," : ""} {c.stateTarget}
     </p>
   </div>
 </a>

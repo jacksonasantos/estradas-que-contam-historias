@@ -5,7 +5,7 @@ export interface Conquista {
   slug: string;
   shortName: string;
   name: string;
-  tipo: ConquistaTipo;
+  type: ConquistaTipo;
   city: string;
   state: string;
   country: string;
@@ -15,10 +15,10 @@ export interface Conquista {
   lngSource?: number;
   latTarget?: number;
   lngTarget?: number;
-  cidadeFim?: string;
-  estadoFim?: string;
-  comprimentoKm?: number;
-  imagem: string; 
-  nota?: string;
+  cityTarget?: string;
+  stateTarget?: string;
+  length_m?: number;
+  image?: string; 
+  note?: string;
   status: "ativa" | "inativa";
 }

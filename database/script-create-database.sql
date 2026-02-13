@@ -21,7 +21,37 @@ CREATE SEQUENCE public.trip_id_seq
 	MAXVALUE 9223372036854775807
 	START 1
 	CACHE 1
-	NO CYCLE;-- public.trip definição
+	NO CYCLE;-- public.achievement definição
+
+-- Drop table
+
+-- DROP TABLE public.achievement;
+
+CREATE TABLE public.achievement (
+	id int4 NULL,
+	slug varchar(50) NULL,
+	"shortName" varchar(50) NULL,
+	"name" varchar(50) NULL,
+	"type" int4 NULL,
+	city varchar(50) NULL,
+	state varchar(50) NULL,
+	country varchar(50) NULL,
+	lat float4 NULL,
+	lng float4 NULL,
+	"latSource" float4 NULL,
+	"lngSource" float4 NULL,
+	"latTarget" float4 NULL,
+	"lngTarget" float4 NULL,
+	"cityTarget" varchar(50) NULL,
+	"stateTarget" varchar(50) NULL,
+	length_m varchar(50) NULL,
+	image varchar(64) NULL,
+	note varchar(50) NULL,
+	status int4 NULL
+);
+
+
+-- public.trip definição
 
 -- Drop table
 
@@ -81,7 +111,7 @@ AS SELECT t.slug,
     t.title AS titulo,
     t.subtitle AS subtitulo,
     t.region AS regiao,
-    to_char(t.distance, 'FM999G999G999'::text) || ' km'::text AS distancia,
+    replace(to_char(t.distance, 'FM999G999G999'::text), ','::text, '.'::text) || ' km'::text AS distancia,
     t.duration::text || ' dias'::text AS duracao,
         CASE t.level_type
             WHEN 1 THEN 'Fácil'::text
@@ -104,7 +134,7 @@ AS SELECT t.slug,
             ELSE NULL::text
         END,
         CASE
-            WHEN i.travel_distance IS NOT NULL AND i.travel_distance > 0 THEN (' · ('::text || to_char(i.travel_distance, 'FM999G999G999'::text)) || ' km)'::text
+            WHEN i.travel_distance IS NOT NULL AND i.travel_distance > 0 THEN (' · ('::text || replace(to_char(i.travel_distance, 'FM999G999G999'::text), ','::text, '.'::text)) || ' km)'::text
             ELSE NULL::text
         END,
         CASE

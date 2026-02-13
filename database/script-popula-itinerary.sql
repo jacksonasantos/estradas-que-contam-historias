@@ -4,6 +4,7 @@ INSERT INTO public.itinerary (itinerary_source,itinerary_target,trip_id,travel_t
 	 ('Santo Ângelo','Porto Xavier',42,210,247,2,'São Miguel das Missões, São Lourenço das Missões, São Nicolau'),
 	 ('Porto Xavier','Posadas (AR)',42,240,242,3,'Ruinas de Santa Maria la Mayor, Guarani Santa Ana, Loreto, San Ignacio, Corpus, Posadas'),
 	 ('Posadas (AR)','San Cosme y Damian (PY)',42,420,370,4,'Encarnacion, La Santissima Trinidad, Jssus de Tavarangue, Santa Rosa, Santa Maria, San Ignacio'),
+	 ('Vacaria','Porto Alegre',60,240,235,3,'Retorno pelas Araucarias - Nova Petrópolis'),
 	 ('Porto Alegre, RS','Passo de Torres, SC',46,150,197,1,''),
 	 ('Passo de Torres, SC','Imbituba, SC',46,323,314,2,'São João do Sul, Praia Grande, Sombrio, Balneário Gaivota, Araranguá, Balneário Arroio do Silva, Balneário Rincão, Jaguaruna, Tubarão, Laguna'),
 	 ('Imbituba, SC','Lages, SC',46,240,278,3,''),
@@ -12,6 +13,8 @@ INSERT INTO public.itinerary (itinerary_source,itinerary_target,trip_id,travel_t
 	 ('Porto Alegre','Pelotas',41,323,389,1,'Guaíba, Camaquã, Rio Grande'),
 	 ('Definido pelo viajante','',56,0,0,1,NULL),
 	 ('Paradas espontâneas','',56,0,0,2,NULL),
+	 ('Porto Alegre','Cambará do Sul',60,180,191,1,'Subida da Serra e Araucárias - Taquara, São Francisco de Paula'),
+	 ('Cambará do Sul','Vacaria',60,150,156,2,'Campos de Cima da Serra - São José do Ausentes, Bom Jesus'),
 	 ('Porto Alegre','Caxias do Sul',40,0,0,NULL,NULL),
 	 ('Caxias do Sul','Flores da Cunha',40,0,0,NULL,NULL),
 	 ('Flores da Cunha','Antônio Prado',40,0,0,NULL,NULL),
@@ -45,11 +48,11 @@ INSERT INTO public.itinerary (itinerary_source,itinerary_target,trip_id,travel_t
 	 ('Torres','Porto Alegre',49,0,0,NULL,NULL),
 	 ('Porto Alegre','Bagé',50,0,0,NULL,NULL),
 	 ('Bagé','Aceguá',50,0,0,NULL,NULL),
-	 ('Aceguá','Santana do Livramento',50,0,0,NULL,NULL),
+	 ('Aceguá','Santana do Livramento',50,0,0,NULL,NULL);
+INSERT INTO public.itinerary (itinerary_source,itinerary_target,trip_id,travel_time,travel_distance,sequencia,note) VALUES
 	 ('Santana do Livramento','Porto Alegre',50,0,0,NULL,NULL),
 	 ('Porto Alegre','Lajeado',51,0,0,NULL,NULL),
-	 ('Lajeado','Estrela',51,0,0,NULL,NULL);
-INSERT INTO public.itinerary (itinerary_source,itinerary_target,trip_id,travel_time,travel_distance,sequencia,note) VALUES
+	 ('Lajeado','Estrela',51,0,0,NULL,NULL),
 	 ('Estrela','Teutônia',51,0,0,NULL,NULL),
 	 ('Teutônia','Porto Alegre',51,0,0,NULL,NULL),
 	 ('Porto Alegre','Bento Gonçalves',52,0,0,NULL,NULL),

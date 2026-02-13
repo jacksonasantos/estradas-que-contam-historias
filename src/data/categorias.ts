@@ -12,9 +12,9 @@ export interface Categoria {
 }
 
 export const CATEGORIAS: Categoria[] = [
-  {id: "historicas",        label: "Históricas",                  icon: "/src/assets/landmark.svg",},
-  {id: "cenicas",           label: "Cênicas / Famosas",           icon: "/src/assets/mountain.svg",},
-  {id: "tematicas",         label: "Temáticas Especiais",         icon: "/src/assets/compass.svg",},
-  {id: "cinematograficas",  label: "Temáticas Cinematográficas",  icon: "/src/assets/clapperboard.svg",},
-  {id: "serras",            label: "Serras",                      icon: "/src/assets/mountainsnow.svg",},
+  {id: "historicas",        label: "Históricas",                  icon: "/assets/landmark.svg",},
+  {id: "cenicas",           label: "Cênicas / Famosas",           icon: "/assets/mountain.svg",},
+  {id: "tematicas",         label: "Temáticas Especiais",         icon: "/assets/compass.svg",},
+  {id: "cinematograficas",  label: "Temáticas Cinematográficas",  icon: "/assets/clapperboard.svg",},
+  {id: "serras",            label: "Serras",                      icon: "/assets/mountainsnow.svg",},
 ];

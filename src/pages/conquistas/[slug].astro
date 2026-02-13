@@ -16,10 +16,10 @@ const lat = parseFloat(conquista.lat);
 const lng = parseFloat(conquista.lng);
 
 // Pontos de origem e destino (source e target)
-const sourceLat = conquista.latSource ? parseFloat(conquista.latSource) : null;
-const sourceLng = conquista.lngSource ? parseFloat(conquista.lngSource) : null;
-const targetLat = conquista.latTarget ? parseFloat(conquista.latTarget) : null;
-const targetLng = conquista.lngTarget ? parseFloat(conquista.lngTarget) : null;
+const sourceLat = conquista.latsource ? parseFloat(conquista.latsource) : null;
+const sourceLng = conquista.lngsource ? parseFloat(conquista.lngsource) : null;
+const targetLat = conquista.lattarget ? parseFloat(conquista.lattarget) : null;
+const targetLng = conquista.lngtarget ? parseFloat(conquista.lngtarget) : null;
 ---
 
 <BaseLayout>
@@ -49,9 +49,9 @@ const targetLng = conquista.lngTarget ? parseFloat(conquista.lngTarget) : null;
         </p> 
       </div>
       <div class="flex-1">
-        {conquista.cityTarget && (
+        {conquista.citytarget && (
           <p class="text-neutral-400">
-            Destino: {conquista.cityTarget} · {conquista.stateTarget}
+            Destino: {conquista.citytarget} · {conquista.statetarget}
           </p>
         )}
         {conquista.length_m > 0 && !isNaN(Number(conquista.length_m)) && (
@@ -144,7 +144,7 @@ const targetLng = conquista.lngTarget ? parseFloat(conquista.lngTarget) : null;
         map,
         title: "Origem",
         icon: {
-          url: "/src/assets/source-marker.png",
+          url: "/assets/source-marker.png",
           scaledSize: new google.maps.Size(32, 32),
         },
       });
@@ -157,7 +157,7 @@ const targetLng = conquista.lngTarget ? parseFloat(conquista.lngTarget) : null;
         map,
         title: "Destino",
         icon: {
-          url: "/src/assets/target-marker.png",
+          url: "/assets/target-marker.png",
           scaledSize: new google.maps.Size(32, 32),
         },
       });

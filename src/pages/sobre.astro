@@ -9,17 +9,24 @@ import Manifesto from "../components/Manifesto.astro";
       alt="Marca d'água"
       class="fixed inset-0 w-full h-full object-cover opacity-20 pointer-events-none z-0"
       style="top:0;left:0;"
-    />
-  <!-- TÍTULO -->
-  <section class="px-6 md:px-20 pt-32 pb-1 max-w-9xl text-center">
-    <h1 class="text-4xl font-serif mb-8">
-      Sobre o projeto
-    </h1>
-
-    <p class="text-neutral-300 text-lg leading-relaxed">
-      Estradas que Contam Histórias é um projeto de viagens de moto
-      criado para quem acredita que o caminho importa tanto quanto o destino.
-    </p>
+  />
+  
+  <!-- TÍTULO --> 
+  <section class="px-6 md:px-20 pt-32 pb-1 max-w-9xl text-center relative flex items-center justify-between">
+    <a href="/"
+      class="absolute max-w-9xl right-16 top-10 border border-neutral-700 px-4 py-2 rounded-full hover:border-neutral-400 hover:text-white transition text-base"
+      style="margin-top:0;">
+      ←<span class="hidden md:inline"> Voltar</span>
+    </a>
+    <div class="flex-1">
+      <div class="items-center mb-4">
+        <h1 class="text-4xl font-serif mb-8">Sobre o projeto</h1>
+      </div>
+      <p class="text-neutral-300 text-lg leading-relaxed mt-4">
+        Estradas que Contam Histórias é um projeto de viagens de moto
+        criado para quem acredita que o caminho importa tanto quanto o destino.
+      </p>
+    </div>
   </section>
 
   <!-- O QUE É -->

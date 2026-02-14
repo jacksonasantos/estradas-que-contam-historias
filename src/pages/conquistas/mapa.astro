@@ -24,7 +24,7 @@ const pontos = conquistas.map(c => ({
         href="/conquistas"
         class="flex items-center gap-2 border border-neutral-700 px-4 py-2 rounded-full hover:border-neutral-400 hover:text-white transition text-base"
       >
-        ← Voltar para lista
+      ←<span class="hidden md:inline"> Voltar para Lista</span>
       </a>
     </div>
 
@@ -114,7 +114,7 @@ const pontos = conquistas.map(c => ({
           map,
           title: "Origem",
           icon: {
-            url: "/src/assets/source-marker.png",
+            url: "/assets/source-marker.png",
             scaledSize: new google.maps.Size(24, 24),
           },
         });
@@ -131,7 +131,7 @@ const pontos = conquistas.map(c => ({
           map,
           title: "Destino",
           icon: {
-            url: "/src/assets/target-marker.png",
+            url: "/assets/target-marker.png",
             scaledSize: new google.maps.Size(24, 24),
           },
         });

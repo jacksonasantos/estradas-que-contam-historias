@@ -32,17 +32,25 @@ if (Astro.request.method === "POST") {
 
 <BaseLayout>
 
-  <!-- Introdução -->
-  <section class="px-6 md:px-20 py-32 max-w-4xl">
-    <h1 class="text-4xl md:text-5xl font-serif mb-8">
-      Vamos conversar?
-    </h1>
+  <!-- Cabeçalho -->
+  <section class="px-6 md:px-20 py-12 max-w-9xl flex items-center justify-between">
+    <div>
+      <div class="flex items-center mb-4">
+        <h1 class="text-5xl font-serif mb-6">Vamos conversar?</h1>
+      </div>
+      <p class="text-neutral-400 max-w-2xl text-lg">
+        Algumas viagens começam com uma pergunta simples.
+        Se você sente que um caminho está te chamando,
+        este é o lugar para começar.
+      </p>
+    </div>
+    <a href="/"
+       class="flex items-center gap-2 border border-neutral-700 px-4 py-2 rounded-full hover:border-neutral-400 hover:text-white transition text-base ml-auto">
+       ←<span class="hidden md:inline"> Voltar</span>
+    </a>
+  </section>
 
-    <p class="text-xl text-neutral-400 leading-relaxed">
-      Algumas viagens começam com uma pergunta simples.
-      Se você sente que um caminho está te chamando,
-      este é o lugar para começar.
-    </p>
+  <section class="px-6 md:px-20 pb-16">
     <div class="flex gap-4 mt-8">
       <a href="https://wa.me/5551999999999" target="_blank" rel="noopener" class="flex items-center gap-2">
         <img src="/assets/whatsapp.svg" alt="WhatsApp" width="36" height="36" class="inline-block" />

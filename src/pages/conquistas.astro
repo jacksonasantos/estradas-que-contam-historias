@@ -28,22 +28,28 @@ const totalConquistas = conquistas.length;
 <BaseLayout title="Conquistas">
   <section class="px-6 md:px-20 py-12 max-w-9xl flex items-center justify-between">
     <div>
-      <h1 class="text-5xl font-serif mb-4">Conquistas</h1>
+      <div class="flex items-center mb-4">
+        <h1 class="text-5xl font-serif mb-6">Conquistas</h1>
+      </div>
       <p class="text-neutral-400 text-lg">
         Estradas, serras e lugares que marcam jornadas memoráveis.
       </p>
     </div>
-    <a
-      href="/conquistas/mapa"
-      class="flex items-center gap-2 border border-neutral-700 px-4 py-2 rounded-full hover:border-neutral-400 hover:text-white transition text-base" 
-    >
-      🗺️<span class="hidden md:inline">Ver mapa</span>
-    </a>
+    <div class="flex items-center justify-between">
+      <a href="/"
+         class="flex items-center gap-2 border border-neutral-700 px-4 py-2 rounded-full hover:border-neutral-400 hover:text-white transition text-base">
+         ←<span class="hidden md:inline"> Voltar</span>
+      </a>
+      <a href="/conquistas/mapa"
+         class="flex items-center gap-2 border border-neutral-700 px-4 py-2 rounded-full hover:border-neutral-400 hover:text-white transition text-base">
+         🗺️<span class="hidden md:inline">Ver mapa</span>
+      </a>
+    </div>
   </section>
 
   <!-- Filtros Tipo -->
   <section class="px-6 md:px-20 pb-1 ">
-    <div id="filtros-conquistas" class="flex flex-wrap gap-4 overflow-x-auto scrollbar-hide py-2">
+    <div id="filtros-conquistas" class="flex flex-wrap gap-4 gap-y-1 overflow-x-auto scrollbar-hide py-2">
       <!-- Todos -->
       <button class="filter-btn active" data-filter="Todos">
         <span>Todos</span>

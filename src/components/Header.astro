@@ -8,20 +8,61 @@
       <!-- Marca -->
       <a href="/" class="flex items-center gap-4 text-lg tracking-wide hover:opacity-80 transition">
         <img src="/assets/home.svg" alt="Home" width="36" height="36" class="inline-block" />
-        <span class="hidden sm:inline">
+        <span >
           Estradas que Contam Histórias
         </span>
       </a>
     </div>
 
     <div>
-      <!-- Menu -->
-      <nav class="flex items-center space-x-8 text-sm text-neutral-300">
+      <!-- Menu Desktop -->
+      <nav class="hidden sm:flex items-center space-x-8 text-sm text-neutral-300">
         <a href="/roteiros" class="hover:text-neutral-100 transition">Roteiros</a>
         <a href="/conquistas" class="hover:text-neutral-100 transition">Conquistas</a>
         <a href="/contato" class="hover:text-neutral-100 transition">Contato</a>
         <a href="/sobre" class="hover:text-neutral-100 transition">Sobre</a>
       </nav>
+      <!-- Botão Mobile -->
+      <button id="menu-btn" class="sm:hidden flex items-center p-2" aria-label="Abrir menu">
+        <svg class="w-8 h-8 text-neutral-100" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M4 8h16M4 16h16"/>
+        </svg>
+      </button>
+      <!-- Menu Mobile Overlay -->
+      <div id="mobile-menu" class="fixed inset-0 bg-neutral-900/95 z-50 flex-col items-center justify-center hidden">
+        <button id="close-menu-btn" class="absolute top-4 right-4 p-2" aria-label="Fechar menu">
+          <svg class="w-8 h-8 text-neutral-100" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/>
+          </svg>
+        </button>
+        <nav class="flex flex-col gap-8 text-2xl text-neutral-100 items-center mt-24">
+          <a href="/roteiros" class="hover:text-neutral-300 transition" onclick="closeMenu()">Roteiros</a>
+          <a href="/conquistas" class="hover:text-neutral-300 transition" onclick="closeMenu()">Conquistas</a>
+          <a href="/contato" class="hover:text-neutral-300 transition" onclick="closeMenu()">Contato</a>
+          <a href="/sobre" class="hover:text-neutral-300 transition" onclick="closeMenu()">Sobre</a>
+        </nav>
+      </div>
+      <script is:inline>
+        const menuBtn = document.getElementById('menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+        const closeMenuBtn = document.getElementById('close-menu-btn');
+        function openMenu() {
+          mobileMenu.classList.remove('hidden');
+        }
+        function closeMenu() {
+          mobileMenu.classList.add('hidden');
+        }
+        if (menuBtn && mobileMenu) {
+          menuBtn.addEventListener('click', openMenu);
+        }
+        if (closeMenuBtn) {
+          closeMenuBtn.addEventListener('click', closeMenu);
+        }
+        // Fecha menu ao clicar em qualquer link do menu mobile
+        mobileMenu?.querySelectorAll('a').forEach(link => {
+          link.addEventListener('click', closeMenu);
+        });
+      </script>
     </div>
     
   </div>

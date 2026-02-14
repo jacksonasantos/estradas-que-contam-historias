@@ -44,10 +44,13 @@ if (Astro.request.method === "POST") {
         este é o lugar para começar.
       </p>
     </div>
-    <a href="/"
-       class="flex items-center gap-2 border border-neutral-700 px-4 py-2 rounded-full hover:border-neutral-400 hover:text-white transition text-base ml-auto">
-       ←<span class="hidden md:inline"> Voltar</span>
-    </a>
+    <a
+        href="#"
+        onclick="history.back(); return false;"
+        class="flex items-center gap-2 border border-neutral-700 px-4 py-2 rounded-full hover:border-neutral-400 hover:text-white transition text-base ml-auto"
+      >
+        ←<span class="hidden md:inline"> Voltar</span>
+      </a>
   </section>
 
   <section class="px-6 md:px-20 pb-16">

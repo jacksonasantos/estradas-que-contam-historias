@@ -23,8 +23,11 @@ if (!roteiro) {
   <BaseLayout title={`${roteiro.titulo} | Estradas que Contam Histórias`}>
     <div class="flex items-center justify-between px-6 md:px-16 pt-2 pb-2">
       <div></div>
-      <a href="/"
-        class="flex items-center gap-2 border border-neutral-700 px-4 py-2 rounded-full hover:border-neutral-400 hover:text-white transition text-base ml-auto">
+      <a
+        href="#"
+        onclick="history.back(); return false;"
+        class="flex items-center gap-2 border border-neutral-700 px-4 py-2 rounded-full hover:border-neutral-400 hover:text-white transition text-base ml-auto"
+      >
         ←<span class="hidden md:inline"> Voltar</span>
       </a>
     </div>

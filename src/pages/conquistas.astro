@@ -36,9 +36,12 @@ const totalConquistas = conquistas.length;
       </p>
     </div>
     <div class="flex items-center justify-between">
-      <a href="/"
-         class="flex items-center gap-2 border border-neutral-700 px-4 py-2 rounded-full hover:border-neutral-400 hover:text-white transition text-base">
-         ←<span class="hidden md:inline"> Voltar</span>
+      <a
+        href="#"
+        onclick="history.back(); return false;"
+        class="flex items-center gap-2 border border-neutral-700 px-4 py-2 rounded-full hover:border-neutral-400 hover:text-white transition text-base ml-auto"
+      >
+        ←<span class="hidden md:inline"> Voltar</span>
       </a>
       <a href="/conquistas/mapa"
          class="flex items-center gap-2 border border-neutral-700 px-4 py-2 rounded-full hover:border-neutral-400 hover:text-white transition text-base">

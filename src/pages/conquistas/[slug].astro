@@ -38,10 +38,12 @@ const targetLng = conquista.lngtarget ? parseFloat(conquista.lngtarget) : null;
         <div class="flex items-center justify-between">
         <h1 class="text-4xl font-serif mb-2">{conquista.shortName} - {conquista.name}</h1>
         <a
-          href="/conquistas"
-          class="flex items-center gap-2 border border-neutral-700 px-4 py-2 rounded-full hover:border-neutral-400 hover:text-white transition text-base">
-          ←<span class="hidden md:inline"> Voltar</span>
-        </a>
+        href="#"
+        onclick="history.back(); return false;"
+        class="flex items-center gap-2 border border-neutral-700 px-4 py-2 rounded-full hover:border-neutral-400 hover:text-white transition text-base ml-auto"
+      >
+        ←<span class="hidden md:inline"> Voltar</span>
+      </a>
       </div>
         <p class="text-neutral-400">
           {conquista.cityTarget ? "Origem" : "Localização"}: {conquista.city} · {conquista.state}, {conquista.country}

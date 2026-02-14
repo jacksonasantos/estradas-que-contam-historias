@@ -38,15 +38,18 @@ const categoriaIcons = Object.fromEntries(CATEGORIAS.map(c => [c.id, c.icon]));
         Escolha a estrada que mais conversa com você.
       </p>
     </div>
-    <a href="/"
-       class="flex items-center gap-2 border border-neutral-700 px-4 py-2 rounded-full hover:border-neutral-400 hover:text-white transition text-base ml-auto">
-       ←<span class="hidden md:inline"> Voltar</span>
-    </a>
+    <a
+        href="#"
+        onclick="history.back(); return false;"
+        class="flex items-center gap-2 border border-neutral-700 px-4 py-2 rounded-full hover:border-neutral-400 hover:text-white transition text-base ml-auto"
+      >
+        ←<span class="hidden md:inline"> Voltar</span>
+      </a>
   </section>
 
   <!-- Filtro -->
-  <section class="px-6 md:px-20 pb-6">
-    <div id="filtros" class="flex flex-wrap gap-4 overflow-x-auto scrollbar-hide py-2">
+  <section class="px-6 md:px-20 pb-1">
+    <div id="filtros" class="flex flex-wrap gap-4 gap-y-1 overflow-x-auto scrollbar-hide py-2">
       <!-- Todos -->
       <button class="filter-btn active" data-filter="Todos">
         <span>Todos</span>

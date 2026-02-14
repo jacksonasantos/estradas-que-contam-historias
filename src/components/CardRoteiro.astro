@@ -22,9 +22,10 @@ const iconPath = categoria?.icon;
   <div class="flex-1 flex flex-col justify-between">
     <div>
       <div class="flex items-center justify-between mb-2">
-        <h3 class="text-xl font-serif group-hover:underline m-0">
+        <h3 class="text-xl font-serif group-hover:underline m-0 flex items-center">
           {roteiro.titulo}
         </h3>
+        
       </div>
       <p class="text-neutral-400 text-sm mb-4">
         {roteiro.subtitulo}
@@ -38,8 +39,17 @@ const iconPath = categoria?.icon;
       <span class="flex items-center">
         {roteiro.regiao}
       </span>
-      <span>
-        {roteiro.distancia} · {roteiro.duracao}
+      <span class="flex items-center justify-start w-full">
+        {roteiro.situacao !== 'Em Breve' && (
+          <span>
+            {roteiro.distancia} · {roteiro.duracao}
+          </span>
+        )}
+        {roteiro.situacao === 'Em Breve' && (
+          <span class="ml-3 px-2 py-0.5 rounded bg-yellow-400 text-yellow-900 text-xs font-bold tracking-wide">
+            EM BREVE
+          </span>
+        )}
       </span>
     </div>
   </div>

@@ -14,4 +14,5 @@ export type Roteiro = {
   caminho?: string[];
   experiencia?: string[];
   imagem?: string;
+  status?: "Em breve" | "Disponível";
 };

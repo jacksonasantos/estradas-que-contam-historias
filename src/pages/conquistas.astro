@@ -26,28 +26,29 @@ const totalConquistas = conquistas.length;
 ---
 
 <BaseLayout title="Conquistas">
-  <section class="px-6 md:px-20 py-12 max-w-9xl flex items-center justify-between">
+  <section class="px-6 md:px-20 py-12 max-w-9xl relative">
     <div>
       <div class="flex items-center mb-4">
-        <h1 class="text-5xl font-serif mb-6">Conquistas</h1>
+        <h1 class="text-5xl font-serif mb-0">Conquistas</h1>
       </div>
       <p class="text-neutral-400 text-lg">
         Estradas, serras e lugares que marcam jornadas memoráveis.
       </p>
     </div>
-    <div class="flex items-center justify-between">
-      <a
-        href="#"
-        onclick="history.back(); return false;"
-        class="flex items-center gap-2 border border-neutral-700 px-4 py-2 rounded-full hover:border-neutral-400 hover:text-white transition text-base ml-auto"
-      >
-        ←<span class="hidden md:inline"> Voltar</span>
-      </a>
-      <a href="/conquistas/mapa"
-         class="flex items-center gap-2 border border-neutral-700 px-4 py-2 rounded-full hover:border-neutral-400 hover:text-white transition text-base">
-         🗺️<span class="hidden md:inline">Ver mapa</span>
-      </a>
-    </div>
+    <a
+      href="#"
+      onclick="history.back(); return false;"
+      class="absolute right-6 md:right-60 top-12 flex items-center gap-2 border border-neutral-700 px-4 py-2 rounded-full hover:border-neutral-400 hover:text-white transition text-base"
+        style="z-index:20;"
+    >
+      ←<span class="hidden md:inline"> Voltar</span>
+    </a>
+    <a href="/conquistas/mapa"
+        class="absolute right-6 md:right-20 top-12 flex items-center gap-2 border border-neutral-700 px-4 py-2 rounded-full hover:border-neutral-400 hover:text-white transition text-base"
+        style="z-index:10;"
+    >
+      🗺️<span class="hidden md:inline">Ver mapa</span>
+    </a>
   </section>
 
   <!-- Filtros Tipo -->

@@ -28,10 +28,10 @@ const categoriaIcons = Object.fromEntries(CATEGORIAS.map(c => [c.id, c.icon]));
   />
 
   <!-- Cabeçalho -->
-  <section class="px-6 md:px-20 py-12 max-w-9xl flex items-center justify-between">
+  <section class="px-6 md:px-20 py-12 max-w-9xl relative">
     <div>
       <div class="flex items-center mb-4">
-        <h1 class="text-5xl font-serif mb-6">Roteiros</h1>
+        <h1 class="text-5xl font-serif mb-0">Roteiros</h1>
       </div>
       <p class="text-neutral-400 text-lg">
         Viagens de moto organizadas por tipo de experiência.
@@ -39,12 +39,13 @@ const categoriaIcons = Object.fromEntries(CATEGORIAS.map(c => [c.id, c.icon]));
       </p>
     </div>
     <a
-        href="#"
-        onclick="history.back(); return false;"
-        class="flex items-center gap-2 border border-neutral-700 px-4 py-2 rounded-full hover:border-neutral-400 hover:text-white transition text-base ml-auto"
-      >
-        ←<span class="hidden md:inline"> Voltar</span>
-      </a>
+      href="#"
+      onclick="history.back(); return false;"
+      class="absolute right-6 md:right-20 top-12 flex items-center gap-2 border border-neutral-700 px-4 py-2 rounded-full hover:border-neutral-400 hover:text-white transition text-base"
+      style="z-index:10;"
+    >
+      ←<span class="hidden md:inline"> Voltar</span>
+    </a>
   </section>
 
   <!-- Filtro -->

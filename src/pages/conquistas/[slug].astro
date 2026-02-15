@@ -36,7 +36,7 @@ const targetLng = conquista.lngtarget ? parseFloat(conquista.lngtarget) : null;
     <div class="flex-1">
       <div class="flex-1">
         <div class="flex items-center justify-between">
-        <h1 class="text-4xl font-serif mb-2">{conquista.shortName} - {conquista.name}</h1>
+        <h1 class="text-4xl font-serif mb-2">{conquista.shortname} - {conquista.name}</h1>
         <a
         href="#"
         onclick="history.back(); return false;"
@@ -46,13 +46,15 @@ const targetLng = conquista.lngtarget ? parseFloat(conquista.lngtarget) : null;
       </a>
       </div>
         <p class="text-neutral-400">
-          {conquista.cityTarget ? "Origem" : "Localização"}: {conquista.city} · {conquista.state}, {conquista.country}
+          <img src="/assets/source-marker.png" alt="Origem" width="24" height="24" class="inline-block filter invert" />
+          {conquista.city} · {conquista.state}, {conquista.country}
         </p> 
       </div>
       <div class="flex-1">
         {conquista.citytarget && (
-          <p class="text-neutral-400">
-            Destino: {conquista.citytarget} · {conquista.statetarget}
+          <p class="text-neutral-400 flex items-center gap-2">
+            <img src="/assets/target-marker.png" alt="Destino" width="24" height="24" class="inline-block filter invert" />
+            {conquista.citytarget} · {conquista.statetarget}
           </p>
         )}
         {conquista.length_m > 0 && !isNaN(Number(conquista.length_m)) && (
